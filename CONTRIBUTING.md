@@ -1,4 +1,29 @@
-## Padrão para Criação de Branches
+## 🔄 Fluxo de Colaboração no Repositório:
+
+**Branch Base para Desenvolvimento**
+
+- A branch principal para desenvolvimento será: **`main`**.
+- Todas as branches dia devem ser criadas a partir da branch **`main`**.
+
+**Fluxo de desenvolvimento:**
+
+1. Crie sua branch a partir da **`main`**.
+2. Faça commits e PRs sempre com base na **`main`**.
+3. Após a aprovação do PR, a branch será mesclada na **`main`**.
+---
+
+## ✏️ Regras para Revisão de Código: 
+O principal objetivo da revisão é diminuir bugs e garantir um melhor entendimento das ações realizadas no código.
+Durante a revisão, é importante:
+Seguir um padrão consistente de nomenclatura de variáveis e formatação do código.
+
+
+1. **Identificar e corrigir bugs e código redundante.**
+2. **Informar claramente sobre todas as alterações feitas.**
+3. **Verificar se as implementações estão de acordo com os requisitos do projeto; caso contrário, buscar entender o motivo e explicar para o grupo.**
+---
+
+## 📄 Padrão para Criação de Branches
 
 A nomeclatura das branches devem seguir o padrão:
 
@@ -24,7 +49,7 @@ Onde:
 
 - **`docs/api-description`**
 
-##  Padrão de Comentário de Commit
+## 📄 Padrão de Comentário de Commit
 
 **`<type>(branch_name):what_was_done_in_the_commit`**
 
@@ -40,7 +65,7 @@ Todos os commits devem seguir a estrutura:
 - Commits menores e frequentes.
 - Mensagens no imperativo, como "add", "fix", "refactor".
 
-## Padrão para Pull Requests
+## 📄 Padrão para Pull Requests
 
 **Título:** Segue o mesmo padrão dos commits: **`<type>(branch): brief description`**.
 
@@ -54,20 +79,20 @@ A descrição do PR deve incluir:
 ---
 
 
-## How to Install
+## Como Instalar <>
 
-0. Certifique-se que o node esteja devidamente instalado.
-1. Clone o repositório.
+1. Certifique-se que o node esteja devidamente instalado.
+2. Clone o repositório.
 ```jsx
 git clone URL_DO_REPOSITÓRIO
 ```
-2. Vá em terminal e abra o novo terminal.
-3. Com o terminal aberto, escreva essa sentença abaixo e dê enter:
+3. Vá em terminal e abra o novo terminal.
+4. Com o terminal aberto, escreva essa sentença abaixo e dê enter:
 ```jsx
 npm install express sqlite3 bcrypt cors cookie-parser @google/generative-ai pdfkit dotenv
 ```
 
-## How to Run
+## Como rodar <>
 0. Inicie o servidor usando o comando.
 ```jsx
 npm start
