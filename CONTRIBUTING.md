@@ -1,4 +1,4 @@
-## **Padrão para Criação de Branches**
+## Padrão para Criação de Branches
 
 A nomeclatura das branches devem seguir o padrão:
 
@@ -23,6 +23,36 @@ Onde:
 - **`refactor/api-rout`**
 
 - **`docs/api-description`**
+
+##  Padrão de Comentário de Commit
+
+**`<type>(branch_name):what_was_done_in_the_commit`**
+
+Todos os commits devem seguir a estrutura:
+
+**Exemplo:**
+
+- **`fix(email-bug): fixes template formatting error`**
+- **`refactor(notifications-module): simplifies notification sending logic`**
+
+**Boas práticas:**
+
+- Commits menores e frequentes.
+- Mensagens no imperativo, como "add", "fix", "refactor".
+
+## Padrão para Pull Requests
+
+**Título:** Segue o mesmo padrão dos commits: **`<type>(branch): brief description`**.
+
+**Descrição:**
+
+A descrição do PR deve incluir:
+
+1. O propósito do Pull Request
+2. Alterações realizadas.
+3. Passos para teste.
+---
+
 
 ## How to Install
 
