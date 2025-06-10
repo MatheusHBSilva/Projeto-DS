@@ -76,6 +76,9 @@ A descrição do PR deve incluir:
 1. O propósito do Pull Request
 2. Alterações realizadas.
 3. Passos para teste.
+
+## 📄 Padrão de nomenclatura de variáveis e funções:
+- Todas devem seguir o padrão **`camelCase`** e ser escritas em **inglês**.
 ---
 
 
