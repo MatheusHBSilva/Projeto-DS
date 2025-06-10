@@ -15,12 +15,12 @@
 ## ✏️ Regras para Revisão de Código: 
 O principal objetivo da revisão é diminuir bugs e garantir um melhor entendimento das ações realizadas no código.
 Durante a revisão, é importante:
-Seguir um padrão consistente de nomenclatura de variáveis e formatação do código.
 
 
-1. **Identificar e corrigir bugs e código redundante.**
-2. **Informar claramente sobre todas as alterações feitas.**
-3. **Verificar se as implementações estão de acordo com os requisitos do projeto; caso contrário, buscar entender o motivo e explicar para o grupo.**
+1. **Seguir um padrão consistente de nomenclatura de variáveis e formatação do código.**
+2. **Identificar e corrigir bugs e código redundante.**
+3. **Informar claramente sobre todas as alterações feitas.**
+4. **Verificar se as implementações estão de acordo com os requisitos do projeto; caso contrário, buscar entender o motivo e explicar para o grupo.**
 ---
 
 ## 📄 Padrão para Criação de Branches
