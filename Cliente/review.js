@@ -1,5 +1,5 @@
 function goBack() {
-  window.history.back();
+  window.location.href='/Cliente/client_dashboard.html';
 }
 
 async function loadRestaurantDetails() {
@@ -77,7 +77,7 @@ async function generateGeneralReview() {
 async function rateRestaurant() {
   const urlParams = new URLSearchParams(window.location.search);
   const restaurantId = urlParams.get('id');
-  window.location.href = `/rate.html?id=${restaurantId}`;
+  window.location.href = `/Cliente/rate.html?id=${restaurantId}`;
 }
 
 document.addEventListener('DOMContentLoaded', loadRestaurantDetails);

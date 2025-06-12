@@ -41,7 +41,7 @@ async function fetchRestaurants() {
       const reviewCountText = restaurant.review_count === 1 ? '1 avaliação' : `${restaurant.review_count} avaliações`;
       card.innerHTML = `
         <h3>
-          <a href="review.html?restaurantId=${restaurant.id}" class="restaurant-link">${restaurant.restaurant_name}</a>
+          <a href="Cliente/review.html?restaurantId=${restaurant.id}" class="restaurant-link">${restaurant.restaurant_name}</a>
           <span class="stars">${stars}</span>
           <span class="rating-info">(${restaurant.average_rating.toFixed(1)}, ${reviewCountText})</span>
  homework

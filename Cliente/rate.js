@@ -1,5 +1,5 @@
 function goBack() {
-  window.history.back();
+  window.location.href='/Cliente/client_dashboard.html'
 }
 
 async function loadRestaurantDetails() {
@@ -94,7 +94,7 @@ async function saveReview() {
     if (!response.ok) throw new Error(data.error);
 
     alert('Avaliação salva com sucesso!');
-    window.location.href = `/review.html?id=${restaurantId}`;
+    window.location.href = `/Cliente/review.html?id=${restaurantId}`;
   } catch (error) {
     console.error('Erro ao salvar avaliação:', error);
     alert('Erro ao salvar avaliação. Certifique-se de que está logado.');

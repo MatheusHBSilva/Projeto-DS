@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.back();
   });
   document.getElementById('historyBtn').addEventListener('click', () => {
-    window.location.href = 'history.html';
+    window.location.href = '/Restaurante/history.html';
   });
 });
 

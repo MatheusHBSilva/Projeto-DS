@@ -66,7 +66,7 @@ async function loadRestaurants() {
       // Adicionar evento de clique para redirecionar ao clicar no card
       restaurantCard.addEventListener('click', (e) => {
         if (e.target.classList.contains('heart-icon')) return;
-        window.location.href = `/review.html?id=${restaurant.id}`;
+        window.location.href = ` /Cliente/review.html?id=${restaurant.id}`;
       });
 
       // Adicionar evento de clique no coração
@@ -114,7 +114,7 @@ async function loadClientDashboard() {
     const clientResponse = await fetch('/api/client-me', { credentials: 'include' });
     const clientData = await clientResponse.json();
     if (!clientResponse.ok) {
-      window.location.href = '/login_client.html';
+      window.location.href = '/Cliente/login_client.html';
       return;
     }
 
@@ -125,7 +125,7 @@ async function loadClientDashboard() {
     loadRestaurants();
   } catch (error) {
     console.error('Erro ao carregar dashboard:', error);
-    window.location.href = '/login_client.html';
+    window.location.href = '/Cliente/login_client.html';
   }
 }
 
@@ -162,10 +162,10 @@ async function searchRestaurants() {
 async function logout() {
   try {
     await fetch('/api/logout', { method: 'POST', credentials: 'include' });
-    window.location.href = '/login_client.html';
+    window.location.href = '../index.html';
   } catch (error) {
     console.error('Erro ao fazer logout:', error);
-    window.location.href = '/login_client.html';
+    window.location.href = '../index.html';
   }
 }
 

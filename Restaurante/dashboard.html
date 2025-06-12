@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard do Restaurante</title>
   <link rel="icon" type="image/x-icon" href="/images/Logo AvalIA.png">
-  <link rel="stylesheet" href="styles.css">
-  <script src="dashboard.js" defer></script>
+  <link rel="stylesheet" href="/CSS/styles.css">
+  <script src="/Restaurante/dashboard.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <button class="back-button">←</button>
+    <!-- <button class="back-button" onclick =  "logout()">Sair</button>-->
+    <a class="back-button" href="../index.html">Sair</a>
     <div class="logo">Aval<span>IA</span></div>
 
     <div class="restaurant-card">
@@ -30,6 +31,7 @@
     <div class="buttons">
       <button id="generateAnalysisBtn" onclick="generateBusinessAnalysis()">Gerar relatórios de feedback</button>
       <button id="historyBtn">Histórico de relatórios</button>
+      <!-- Essa parte abaixo é o botão de editar o perfil do restaurante que não está implementado (dívida técnica) -->
       <!--<button id="editProfileBtn">Editar perfil do restaurante</button>-->
     </div>
 
