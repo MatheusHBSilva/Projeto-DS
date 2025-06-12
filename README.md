@@ -16,6 +16,24 @@ git clone URL_DO_REPOSITÓRIO
 npm install express sqlite3 bcrypt cors cookie-parser @google/generative-ai pdfkit dotenv
 ```
 
+## 📂 Descrição das dependências
+
+`express`: Framework minimalista para criação de servidores web em Node.js.
+
+`sqlite3`: Biblioteca para utilizar o banco de dados SQLite em Node.js.
+
+`bcrypt`: Utilizado para hashing seguro de senhas.
+
+`cors`: Middleware para habilitar CORS (Cross-Origin Resource Sharing) nas requisições HTTP.
+
+`cookie-parser`: Middleware para fazer o parsing de cookies enviados nas requisições.
+
+`@google/generative-ai`: SDK da Google para integrar funcionalidades de inteligência artificial generativa.
+
+`pdfkit`: Biblioteca para criação de arquivos PDF diretamente no servidor.
+
+`dotenv`: Carrega variáveis de ambiente a partir de um arquivo .env para configuração do projeto.
+
 ## Como Rodar <>
 0. Inicie o servidor usando o comando.
 ```jsx
