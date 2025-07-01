@@ -1,3 +1,4 @@
+// controllers/reviewController.js
 const { db } = require('../models/db');
 
 exports.getReviews = (req, res) => {
@@ -10,15 +11,11 @@ exports.getReviews = (req, res) => {
 
   const queryLimit = limit ? parseInt(limit, 10) : 50;
   const sql = `
-    SELECT
-      reviewer_name,
-      rating,
-      review_text,
-      created_at
-    FROM reviews
-    WHERE restaurant_id = ?
-    ORDER BY created_at DESC
-    LIMIT ?
+    SELECT reviewer_name, rating, review_text, created_at
+      FROM reviews
+     WHERE restaurant_id = ?
+     ORDER BY created_at DESC
+     LIMIT ?
   `;
 
   db.all(sql, [restaurantId, queryLimit], (err, rows) => {
@@ -29,4 +26,46 @@ exports.getReviews = (req, res) => {
     }
     res.json({ reviews: rows });
   });
+};
+
+exports.submitReview = async (req, res) => {
+  const { restaurantId, reviewerName, rating, reviewText } = req.body;
+
+  if (!restaurantId || !reviewerName || rating == null) {
+    return res
+      .status(400)
+      .json({ error: 'Restaurante, nome e nota são obrigatórios.' });
+  }
+  if (rating < 1 || rating > 5) {
+    return res
+      .status(400)
+      .json({ error: 'A nota deve ser entre 1 e 5.' });
+  }
+
+  try {
+    await new Promise((resolve, reject) => {
+      db.run(
+        `INSERT INTO reviews
+           (restaurant_id, reviewer_name, rating, review_text, created_at)
+         VALUES (?, ?, ?, ?, ?)`,
+        [
+          restaurantId,
+          reviewerName,
+          rating,
+          reviewText || '',
+          new Date().toISOString()
+        ],
+        err => (err ? reject(err) : resolve())
+      );
+    });
+
+    res
+      .status(201)
+      .json({ message: 'Avaliação salva com sucesso!' });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: 'Erro interno no servidor.' });
+  }
 };
