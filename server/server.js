@@ -29,7 +29,7 @@ initTables();
 app.use(cors({ origin: ['https://sua-app.render.com', 'http://localhost:3000'], credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '../client')));
 
 
 // Rotas agrupadas

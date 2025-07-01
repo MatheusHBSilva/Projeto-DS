@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const path   = require('path');
 
-const db = new sqlite3.Database(path.resolve(__dirname, '../database.db'), err => {
+const db = new sqlite3.Database(path.resolve(__dirname, '../../database.db'), err => {
   if (err) console.error('Erro ao conectar no SQLite:', err.message);
   else     console.log('Conectado ao SQLite com sucesso');
 });
