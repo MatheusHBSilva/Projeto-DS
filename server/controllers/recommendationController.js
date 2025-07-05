@@ -4,19 +4,9 @@ const PDFDocument = require('pdfkit');
 
 exports.clientRecommendation = async (req, res) => {
   const { restaurantId, format } = req.body;
-  if (!restaurantId) {
-    return res
-      .status(400)
-      .json({ error: 'ID do restaurante é obrigatório.' });
-  }
 
   try {
     const clientId = req.cookies.clientId;
-    if (!clientId) {
-      return res
-        .status(401)
-        .json({ error: 'Não autenticado.' });
-    }
 
     // 1. Buscar até 100 avaliações recentes
     const reviews = await new Promise((resolve, reject) => {

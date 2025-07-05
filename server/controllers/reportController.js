@@ -3,11 +3,6 @@ const PDFDocument = require('pdfkit');
 
 exports.getReportHistory = (req, res) => {
   const { restaurantId } = req.query;
-  if (!restaurantId) {
-    return res
-      .status(400)
-      .json({ error: 'ID do restaurante é obrigatório.' });
-  }
 
   const sql = `
     SELECT 
@@ -31,11 +26,6 @@ exports.getReportHistory = (req, res) => {
 
 exports.downloadReport = async (req, res) => {
   const { reportId } = req.body;
-  if (!reportId) {
-    return res
-      .status(400)
-      .json({ error: 'ID do relatório é obrigatório.' });
-  }
 
   try {
     // Busca o relatório no banco

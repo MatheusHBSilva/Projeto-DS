@@ -5,11 +5,6 @@ const PDFDocument = require('pdfkit');
 
 exports.businessAnalysis = async (req, res) => {
   const { restaurantId, format } = req.body;
-  if (!restaurantId) {
-    return res
-      .status(400)
-      .json({ error: 'ID do restaurante é obrigatório.' });
-  }
 
   try {
     // 1. Busca até 50 avaliações recentes

@@ -4,12 +4,6 @@ const { db } = require('../models/db');
 exports.registerClient = async (req, res) => {
   const { nome, sobrenome, cpf, telefone, email, senha, tags } = req.body;
 
-  if (!nome || !sobrenome || !cpf || !telefone || !email || !senha) {
-    return res
-      .status(400)
-      .json({ error: 'Todos os campos obrigatórios são obrigatórios.' });
-  }
-
   try {
     // Verifica email ou CPF já cadastrado
     const existingClient = await new Promise((resolve, reject) => {
@@ -58,10 +52,7 @@ exports.registerClient = async (req, res) => {
 
 exports.getCurrentClient = (req, res) => {
   const clientId = req.cookies.clientId;
-  if (!clientId) {
-    return res.status(401).json({ error: 'Não autenticado.' });
-  }
-
+  
   db.get(
     'SELECT id, nome, sobrenome, email, tags FROM clients WHERE id = ?',
     [clientId],

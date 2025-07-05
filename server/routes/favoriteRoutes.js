@@ -1,5 +1,6 @@
 const express = require('express');
 const router  = express.Router();
+const { validateGetClient } = require('../middlewares/clientMiddlewares');
 const {
   getFavoriteIds,
   toggleFavorite,
@@ -7,12 +8,12 @@ const {
 } = require('../controllers/favoriteController');
 
 // GET  /api/favorites
-router.get('/favorites', getFavoriteIds);
+router.get('/favorites', validateGetClient, getFavoriteIds);
 
 // POST /api/favorites
 router.post('/favorites', toggleFavorite);
 
 // GET  /api/favorites/restaurants
-router.get('/favorites/restaurants', getFavoriteRestaurants);
+router.get('/favorites/restaurants', validateGetClient, getFavoriteRestaurants);
 
 module.exports = router;
