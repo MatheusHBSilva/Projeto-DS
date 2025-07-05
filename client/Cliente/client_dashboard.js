@@ -159,16 +159,6 @@ async function searchRestaurants() {
   await loadRestaurants();
 }
 
-async function logout() {
-  try {
-    await fetch('/api/logout', { method: 'POST', credentials: 'include' });
-    window.location.href = '../index.html';
-  } catch (error) {
-    console.error('Erro ao fazer logout:', error);
-    window.location.href = '../index.html';
-  }
-}
-
 // Fechar dropdown ao clicar fora
 document.addEventListener('click', (e) => {
   const dropdown = document.getElementById('dropdown');
