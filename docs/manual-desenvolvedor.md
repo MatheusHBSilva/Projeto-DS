@@ -5,9 +5,9 @@ Navegue pela documentação para entender o código, sua arquitetura, suas princ
 ## Sumário
 
 - **Principais Funcionalidades**  
-  - [Autenticação (Login/Logout)](autenticação-loginlogout.md)  
-  - [Cliente](cliente-funcionalidades.md)  
-  - [Restaurante](#restaurante)
+  - [Autenticação (Login/Logout)](funcionalidades/autenticação-loginlogout.md)  
+  - [Cliente](funcionalidades/cliente-funcionalidades.md)  
+  - [Restaurante](funcionalidades/restaurante-funcionalidades.md)
 - [Arquitetura do Código](arquitetura.md)
 - [Estrutura de Pastas](estrutura-pastas.md)         
-- [CONTRIBUTING](../CONTRIBUTING.md)  
+- [CONTRIBUTING](../CONTRIBUTING.md)
