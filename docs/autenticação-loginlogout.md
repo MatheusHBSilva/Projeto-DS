@@ -1,14 +1,14 @@
-## 🔐 Autenticação (Login/Logout)
+# 🔐 Autenticação (Login/Logout)
 
-### Função: `login(userType)`
+## Função: `login(userType)`
 
 **Localização**  
-`client/js/login.js`
+`client/auth.js`
 
 ---
 
 ### Descrição  
-Realiza a autenticação do usuário (cliente ou restaurante) e, em caso de sucesso, redireciona para o dashboard apropriado.
+Realiza a autenticação do usuário (cliente ou restaurante), valida o tipo retornado pelo servidor e redireciona para o dashboard correspondente.
 
 ---
 
@@ -20,57 +20,71 @@ async function login(userType)
 ### Parâmetros
 
 - **userType** (string)  
-  'client' ou 'restaurant'. Define o caminho de redirecionamento após o login.  
-
----
+  'client' ou 'restaurant' que indica qual dashboard deve ser carregado após o login.
 
 ### Fluxo de execução
 
-1. **Coleta do form**  
-   - Lê `email` e `password` pelos IDs no DOM.  
-   - Seleciona o elemento `#message` para feedback.  
+1. **Coleta de dados**  
+   - Lê `email` e `password` pelos campos `#email` e `#password`.  
+   - Seleciona o elemento `#message` para exibir feedback.
 
 2. **Validação básica**  
-   - Se algum campo estiver vazio, exibe mensagem de erro e interrompe.  
+   - Se algum campo estiver vazio, exibe mensagem de erro e interrompe o processo.
 
 3. **Requisição à API**  
-   - `POST /api/login` com payload `{ email, password }`.  
-   - Aguarda resposta e parseia JSON.  
+   - Envia `POST /api/login` com corpo `{ email, password }` e `credentials: 'include'`.  
+   - Aguarda e converte a resposta para JSON.
 
 4. **Tratamento de falhas**  
-   - Se `response.ok === false`, exibe `data.error` ou mensagem genérica.  
+   - Se `res.ok` for `false`, exibe `data.error` ou mensagem genérica e interrompe.
 
-5. **Redirecionamento**  
-   - Se `userType === 'restaurant'` ⇒ `/Restaurante/dashboard.html`  
-   - Se `userType === 'client'` ⇒ `/Cliente/Client_dashboard.html`  
+5. **Checagem de tipo**  
+   - Compara `data.userType` com o `expectedType` passado.  
+   - Se não coincidirem, exibe “Permissão negada para esta área.” e aborta.
 
-6. **Erros de conexão**  
-   - Captura exceções e exibe “Erro ao conectar ao servidor.”  
+6. **Redirecionamento**  
+   - Se `userType === 'restaurant'`, redireciona para `/Restaurante/dashboard.html`.  
+   - Se `userType === 'client'`, redireciona para `/Cliente/Client_dashboard.html`.
 
-### Função: `logout()`
+7. **Erro de conexão**  
+   - Em caso de exceção, exibe “Erro ao conectar ao servidor.” e registra o erro no console.  
+
+## Função: `logout()`
 
 **Localização**  
-`client/js/auth.js` (ou onde estiver definida)
+`client/auth.js`
 
 ---
 
 ### Descrição  
-Envia uma requisição ao backend para encerrar a sessão do usuário e, em seguida, redireciona para a página de login.
+Encerra a sessão do usuário no backend e, independente do resultado da requisição, redireciona para a página inicial.
 
 ---
 
 ### Assinatura  
 ```js
 async function logout()
+```
 
+### Parâmetros
+
+- Nenhum
 
 ### Fluxo de execução
 
 1. **Requisição de logout**  
-   - Chama `POST /api/logout` com `{ credentials: 'include' }` para incluir cookies de sessão.
+   - Envia `POST /api/logout` com `credentials: 'include'` para invalidar o cookie de sessão no servidor.
 
-2. **Redirecionamento em sucesso**  
-   - Se a requisição completar sem erros, faz `window.location.href = '../index.html'`.
+2. **Redirecionamento**  
+   - Após a conclusão da requisição (sucesso ou falha), define:
+     ```js
+     window.location.href = '/index.html'
+     ```
 
 3. **Tratamento de falhas**  
-   - Em caso de exceção, registra o erro no console (`console.error`) e redireciona mesmo assim para `../index.html`.  
+   - Se ocorrer uma exceção durante o fetch, registra o erro no console:
+     ```js
+     console.error(err)
+     ```
+   - Em seguida, prossegue com o redirecionamento.
+

@@ -1,10 +1,9 @@
 # 🧩 Manual do Desenvolvedor
 
 ## Sumário  
-- [Configuração do Ambiente](#configuração-do-ambiente)  
 - [Estrutura de Pastas](#estrutura-de-pastas)  
 - [Principais Funcionalidades](#principais-funcionalidades)  
-  - [Autenticação (Login/Logout)](#autenticação-loginlogout)  
+  - [Autenticação (Login/Logout)](\autenticação-loginlogout.md)  
   - [Cliente](#cliente)  
   - [Restaurante](#restaurante)    
 - [Arquitetura do Código](#arquitetura-do-código)  
