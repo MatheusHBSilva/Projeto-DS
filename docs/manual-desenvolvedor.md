@@ -1,15 +1,13 @@
 # 🧩 Manual do Desenvolvedor
 
-## Sumário  
-- [Estrutura de Pastas](#estrutura-de-pastas)  
-- [Principais Funcionalidades](#principais-funcionalidades)  
-  - [Autenticação (Login/Logout)](\autenticação-loginlogout.md)  
-  - [Cliente](#cliente)  
-  - [Restaurante](#restaurante)    
-- [Arquitetura do Código](#arquitetura-do-código)  
-  - [Models / DB (SQLite)](#models--db-sqlite)  
-  - [Controllers](#controllers)  
-  - [Routes](#routes)
-  - [Middlewares](#middleware)
-- [Como Executar](#como-executar)  
-- [CONTRIBUTING](#contribuindo)  
+Navegue pela documentação para entender o código, sua arquitetura, suas principais funcionalidades e o **repositório** de modo geral:
+
+## Sumário
+
+- **Principais Funcionalidades**  
+  - [Autenticação (Login/Logout)](autenticação-loginlogout.md)  
+  - [Cliente](cliente-funcionalidades.md)  
+  - [Restaurante](#restaurante)
+- [Arquitetura do Código](arquitetura.md)
+- [Estrutura de Pastas](estrutura-pastas.md)         
+- [CONTRIBUTING](../CONTRIBUTING.md)  
