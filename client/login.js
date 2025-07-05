@@ -1,9 +1,8 @@
-async function login(userType) {
-  const email = document.getElementById('email').value;
+async function login(expectedType) {
+  const email    = document.getElementById('email').value;
   const password = document.getElementById('password').value;
-  const message = document.getElementById('message');
+  const message  = document.getElementById('message');
 
-  // Verificar os campos vazios
   if (!email || !password) {
     message.textContent = 'Por favor, preencha todos os campos.';
     message.style.display = 'block';
@@ -11,29 +10,37 @@ async function login(userType) {
   }
 
   try {
-    //Conexão com o back (server.js)
-    const response = await fetch('/api/login', {
+    const res  = await fetch('/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
+      credentials: 'include'
     });
+    const data = await res.json();
 
-    const data = await response.json();
-
-    if (!response.ok) {
+    if (!res.ok) {
       message.textContent = data.error || 'Erro ao fazer login.';
       message.style.display = 'block';
       return;
     }
 
+    // verificando se o userType é o esperado
+    if (data.userType !== expectedType) {
+      message.textContent = `Acesse a página de login correta.`;
+      message.style.display = 'block';
+      return;
+    }
+
+    // redireciona apenas se bater com o tipo esperado
     if (data.userType === 'restaurant') {
       window.location.href = '/Restaurante/dashboard.html';
-    } else if (data.userType === 'client') {
+    } else {
       window.location.href = '/Cliente/Client_dashboard.html';
     }
-  } catch (error) {
+
+  } catch (err) {
+    console.error('Erro no login:', err);
     message.textContent = 'Erro ao conectar ao servidor.';
     message.style.display = 'block';
-    console.error('Erro no login:', error);
   }
 }
