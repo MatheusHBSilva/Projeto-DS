@@ -2,9 +2,6 @@ const { db } = require('../models/db');
 
 exports.getFavoriteRestaurants = (req, res) => {
   const clientId = req.cookies.clientId;
-  if (!clientId) {
-    return res.status(401).json({ error: 'Não autenticado.' });
-  }
 
   const query = `
     SELECT r.id,
@@ -38,9 +35,6 @@ exports.getFavoriteRestaurants = (req, res) => {
 
 exports.getFavoriteIds = (req, res) => {
   const clientId = req.cookies.clientId;
-  if (!clientId) {
-    return res.status(401).json({ error: 'Não autenticado.' });
-  }
 
   db.all(
     'SELECT restaurant_id FROM favoritos WHERE client_id = ?',

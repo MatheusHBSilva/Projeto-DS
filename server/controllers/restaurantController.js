@@ -4,10 +4,6 @@ const { db } = require('../models/db');
 exports.registerRestaurant = async (req, res) => {
   const { restaurantName, cnpj, email, password, tags } = req.body;
 
-  if (!restaurantName || !cnpj || !email || !password) {
-    return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
-  }
-
   try {
     // Verifica email existente
     const existingUser = await new Promise((resolve, reject) => {
@@ -50,9 +46,6 @@ exports.registerRestaurant = async (req, res) => {
 
 exports.getCurrentRestaurant = (req, res) => {
   const restaurantId = req.cookies.restaurantId;
-  if (!restaurantId) {
-    return res.status(401).json({ error: 'Não autenticado.' });
-  }
 
   db.get(
     'SELECT id, restaurant_name, tags FROM restaurants WHERE id = ?',
@@ -131,12 +124,6 @@ exports.getRestaurants = (req, res) => {
 
 exports.getRestaurantTags = (req, res) => {
   const { id } = req.query;
-
-  if (!id) {
-    return res
-      .status(400)
-      .json({ error: 'ID do restaurante é obrigatório.' });
-  }
 
   db.get(
     'SELECT tags FROM restaurants WHERE id = ?',

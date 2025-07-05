@@ -3,11 +3,6 @@ const { db } = require('../models/db');
 
 exports.getReviews = (req, res) => {
   const { restaurantId, limit } = req.query;
-  if (!restaurantId) {
-    return res
-      .status(400)
-      .json({ error: 'ID do restaurante é obrigatório.' });
-  }
 
   const queryLimit = limit ? parseInt(limit, 10) : 50;
   const sql = `
@@ -30,17 +25,6 @@ exports.getReviews = (req, res) => {
 
 exports.submitReview = async (req, res) => {
   const { restaurantId, reviewerName, rating, reviewText } = req.body;
-
-  if (!restaurantId || !reviewerName || rating == null) {
-    return res
-      .status(400)
-      .json({ error: 'Restaurante, nome e nota são obrigatórios.' });
-  }
-  if (rating < 1 || rating > 5) {
-    return res
-      .status(400)
-      .json({ error: 'A nota deve ser entre 1 e 5.' });
-  }
 
   try {
     await new Promise((resolve, reject) => {
