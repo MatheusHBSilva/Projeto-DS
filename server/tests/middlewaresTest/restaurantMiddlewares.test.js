@@ -104,3 +104,54 @@ describe('idQueryRestaurant middleware', () => {
         expect(res.json).not.toHaveBeenCalled();
     });
 });
+
+describe('validateSubmitReview middleware', () => {
+    let req, res, next;
+
+    beforeEach( () => {
+        req = { body: {} };
+        res = {
+            status: jest.fn().mockReturnThis(), 
+            json: jest.fn()
+        };
+        next = jest.fn();
+    });
+
+    // Lista de casos com campos obrigatórios ausentes
+    const errorCases = [ {}, 
+        { restaurantId: 123, reviewerName: 'name' }, { restaurantId: 123, rating: 6 }];
+
+    test.each(errorCases)(
+        'Deve retornar 400 se algum dos campos não for preenchido',
+        (body) => {
+            req.body = body;
+
+            validateSubmitReview(req, res, next);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({ error: 'Restaurante, nome e nota são obrigatórios.' });
+            expect(next).not.toHaveBeenCalled();
+        }
+    );
+
+    it('Deve retornar 400 se os campos forem preenchidos, mas o rating for menor que 1 ou maior que 5', () => {
+        req.body = { restaurantId: 123, reviewerName: 'name', rating: 6 };
+
+        validateSubmitReview(req, res, next);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: 'A nota deve ser entre 1 e 5.' });
+        expect(next).not.toHaveBeenCalled();
+
+    });
+
+    it('Deve chamar next() se todos os campos forem preenchidos e o rating for entre entre 1 e 5 (incluindo ambos)', () => {
+        req.body = { restaurantId: 123, reviewerName: 'name', rating: 5 };
+
+        validateSubmitReview(req, res, next);
+
+        expect(next).toHaveBeenCalled();
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).not.toHaveBeenCalled();
+    });
+});
