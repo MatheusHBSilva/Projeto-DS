@@ -1,4 +1,4 @@
-# Funções – Cliente Dashboard 👥
+# Funções – Cliente 👥
 
 ## Principais Funções
 
