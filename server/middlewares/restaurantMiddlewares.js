@@ -21,7 +21,7 @@ function idQueryRestaurant(req, res, next) {
 }
 
 function idBodyRestaurant(req, res, next) {
-    const { restaurantId, format } = req.body;
+    const { restaurantId } = req.body;
 
     if (!restaurantId) {
         return res
@@ -45,7 +45,7 @@ function validateGetTag(req, res, next) {
 }
 
 function validateSubmitReview(req, res, next) {
-    const { restaurantId, reviewerName, rating, reviewText } = req.body;
+    const { restaurantId, reviewerName, rating } = req.body;
 
     if (!restaurantId || !reviewerName || rating == null) {
         return res
@@ -62,7 +62,7 @@ function validateSubmitReview(req, res, next) {
 }
 
 function validateRegisterRestaurant(req, res, next) {
-    const { restaurantName, cnpj, email, password, tags } = req.body;
+    const { restaurantName, cnpj, email, password } = req.body;
 
     if (!restaurantName || !cnpj || !email || !password) {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
