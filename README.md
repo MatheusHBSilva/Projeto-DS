@@ -57,3 +57,7 @@ npm test
 ```jsx
 npm test nome-do-arquivo
 ```
+3. Para analisar a cobertura de código com testes, rode no terminal.
+```jsx
+npx jest --coverage
+```
