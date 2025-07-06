@@ -55,7 +55,7 @@ describe('getCurrentClient controller', () => {
 });
 
 // Teste da função registerClient
-describe.only('registerClient controller', () => {
+describe('registerClient controller', () => {
     let req, res;
 
     beforeEach( () => {
