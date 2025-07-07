@@ -1,10 +1,18 @@
-// controllers/analysisController.js
+// server/controllers/analysisController.js
 const { db } = require('../models/db');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const PDFDocument = require('pdfkit');
+const logger = require('../utils/logger'); // Importa o logger
 
 exports.businessAnalysis = async (req, res) => {
   const { restaurantId, format } = req.body;
+
+  logger.info(`Tentativa de gerar análise de negócio para restaurante ID: ${restaurantId}, formato: ${format}`); // Log de início
+
+  if (!restaurantId) {
+      logger.warn('Análise de negócio falhou: ID do restaurante ausente.'); // Log de validação
+      return res.status(400).json({ error: 'ID do restaurante é obrigatório.' });
+  }
 
   try {
     // 1. Busca até 50 avaliações recentes
@@ -19,6 +27,7 @@ exports.businessAnalysis = async (req, res) => {
         (err, rows) => (err ? reject(err) : resolve(rows))
       );
     });
+    logger.debug(`Recuperadas ${reviews.length} avaliações para análise do restaurante ${restaurantId}.`); // Log detalhado
 
     // 2. Monta prompt para Gemini
     const prompt = `
@@ -36,10 +45,12 @@ exports.businessAnalysis = async (req, res) => {
         )
         .join('\n')}
     `;
+    logger.debug('Prompt para Gemini de análise de negócio preparado.'); // Log detalhado
 
     // 3. Chama a API Gemini
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      logger.critical('Chave da API do Gemini não configurada no .env. Impossível gerar análise.'); // Log crítico
       throw new Error(
         'Chave da API do Gemini não configurada no .env.'
       );
@@ -50,6 +61,7 @@ exports.businessAnalysis = async (req, res) => {
     });
     const result = await model.generateContent(prompt);
     const analysis = await result.response.text();
+    logger.info(`Análise de negócio gerada com sucesso para restaurante ID ${restaurantId}.`); // Log de sucesso
 
     // 4. Salva no banco de dados
     await new Promise((resolve, reject) => {
@@ -60,6 +72,7 @@ exports.businessAnalysis = async (req, res) => {
         err => (err ? reject(err) : resolve())
       );
     });
+    logger.info(`Análise de negócio salva no banco de dados para restaurante ID ${restaurantId}.`); // Log de sucesso
 
     // 5. Se PDF, gera e envia o buffer
     if (format === 'pdf') {
@@ -73,6 +86,7 @@ exports.businessAnalysis = async (req, res) => {
           'Content-Disposition',
           `attachment; filename="relatorio_analise_${restaurantId}.pdf"`
         );
+        logger.info(`PDF de análise de negócio gerado e enviado para restaurante ID ${restaurantId}.`); // Log de sucesso
         res.send(pdfData);
       });
 
@@ -89,9 +103,10 @@ exports.businessAnalysis = async (req, res) => {
     }
 
     // 6. Resposta JSON padrão
+    logger.info(`Análise de negócio em JSON enviada para restaurante ID ${restaurantId}.`); // Log de sucesso
     res.status(200).json({ analysis });
   } catch (error) {
-    console.error(error);
+    logger.error(`Erro ao gerar análise de negócio para restaurante ID ${restaurantId}: ${error.message}`, { stack: error.stack, errorName: error.name }); // Log de erro detalhado
     res
       .status(500)
       .json({ error: error.message || 'Erro interno ao gerar análise.' });

@@ -1,10 +1,20 @@
+// server/controllers/restaurantController.js
 const bcrypt = require('bcrypt');
 const { db } = require('../models/db');
+const logger = require('../utils/logger'); // Importa o logger
 
 exports.registerRestaurant = async (req, res) => {
   const { restaurantName, cnpj, email, password, tags } = req.body;
 
+  logger.info(`Tentativa de registro de restaurante: ${email}`); // Log de início da operação
+
   try {
+    // Validação básica de entrada
+    if (!restaurantName || !cnpj || !email || !password) {
+        logger.warn(`Registro de restaurante falhou: Dados obrigatórios ausentes para ${email}`); // Log de validação
+        return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
+    }
+
     // Verifica email existente
     const existingUser = await new Promise((resolve, reject) => {
       db.get(
@@ -15,14 +25,15 @@ exports.registerRestaurant = async (req, res) => {
     });
 
     if (existingUser) {
+      logger.warn(`Registro de restaurante falhou: Email já registrado para ${email}`); // Log de validação
       return res.status(400).json({ error: 'Este email já está registrado.' });
     }
 
     // Cria hash da senha e insere no BD
     const hashedPassword = await bcrypt.hash(password, 10);
-    await new Promise((resolve, reject) => {
+    const result = await new Promise((resolve, reject) => { // Captura o resultado da inserção
       db.run(
-        `INSERT INTO restaurants 
+        `INSERT INTO restaurants
           (restaurant_name, cnpj, email, password, tags, created_at)
          VALUES (?, ?, ?, ?, ?, ?)`,
         [
@@ -33,13 +44,17 @@ exports.registerRestaurant = async (req, res) => {
           tags || '',
           new Date().toISOString()
         ],
-        err => (err ? reject(err) : resolve())
+        function(err) { // Usar 'function' para ter acesso a 'this.lastID'
+            if (err) reject(err);
+            else resolve(this.lastID); // Retorna o ID do novo restaurante
+        }
       );
     });
 
+    logger.info(`Restaurante registrado com sucesso: ${email}`, { restaurantId: result }); // Log de sucesso com ID
     res.status(201).json({ message: 'Registro salvo com sucesso!' });
   } catch (error) {
-    console.error(error);
+    logger.error(`Erro ao registrar restaurante para ${email}: ${error.message}`, { stack: error.stack }); // Log de erro detalhado
     res.status(500).json({ error: 'Erro interno no servidor.' });
   }
 };
@@ -47,17 +62,25 @@ exports.registerRestaurant = async (req, res) => {
 exports.getCurrentRestaurant = (req, res) => {
   const restaurantId = req.cookies.restaurantId;
 
+  if (!restaurantId) {
+      logger.warn('Tentativa de obter restaurante atual sem restaurantId no cookie.'); // Log de aviso
+      return res.status(401).json({ error: 'Não autenticado ou ID do restaurante ausente.' });
+  }
+
   db.get(
     'SELECT id, restaurant_name, tags FROM restaurants WHERE id = ?',
     [restaurantId],
     (err, row) => {
       if (err) {
+        logger.error(`Erro ao buscar restaurante atual para ID ${restaurantId}: ${err.message}`, { stack: err.stack }); // Log de erro
         return res.status(500).json({ error: 'Erro interno no servidor.' });
       }
       if (!row) {
+        logger.warn(`Restaurante não encontrado para ID ${restaurantId}`); // Log de aviso
         return res.status(404).json({ error: 'Restaurante não encontrado.' });
       }
 
+      logger.info(`Restaurante atual obtido: ${row.restaurant_name} (ID: ${row.id})`); // Log de sucesso
       res.json({
         restaurantId:   row.id,
         restaurantName: row.restaurant_name,
@@ -71,6 +94,8 @@ exports.getCurrentRestaurant = (req, res) => {
 
 exports.getRestaurants = (req, res) => {
   const { id, limit, random, search } = req.query;
+
+  logger.info(`Buscando restaurantes com filtros: ID=${id}, Limit=${limit}, Random=${random}, Search=${search}`); // Log de início
 
   let query = `
     SELECT r.id,
@@ -104,10 +129,12 @@ exports.getRestaurants = (req, res) => {
 
   db.all(query, params, (err, rows) => {
     if (err) {
+      logger.error(`Erro ao buscar lista de restaurantes: ${err.message}`, { stack: err.stack, queryParams: req.query }); // Log de erro
       return res.status(500).json({ error: 'Erro interno no servidor.' });
     }
 
     if (rows.length === 0 && id) {
+      logger.warn(`Nenhum restaurante encontrado para o ID: ${id}`); // Log de aviso
       return res.status(404).json({ error: 'Restaurante não encontrado.' });
     }
 
@@ -118,6 +145,7 @@ exports.getRestaurants = (req, res) => {
       review_count:    row.review_count
     }));
 
+    logger.info(`Retornados ${restaurants.length} restaurantes.`); // Log de sucesso
     res.json({ restaurants });
   });
 };
@@ -125,16 +153,23 @@ exports.getRestaurants = (req, res) => {
 exports.getRestaurantTags = (req, res) => {
   const { id } = req.query;
 
+  if (!id) {
+      logger.warn('Tentativa de obter tags de restaurante sem ID fornecido.'); // Log de aviso
+      return res.status(400).json({ error: 'ID do restaurante é obrigatório.' });
+  }
+
   db.get(
     'SELECT tags FROM restaurants WHERE id = ?',
     [id],
     (err, row) => {
       if (err) {
+        logger.error(`Erro ao buscar tags do restaurante para ID ${id}: ${err.message}`, { stack: err.stack }); // Log de erro
         return res
           .status(500)
           .json({ error: 'Erro interno no servidor.' });
       }
       if (!row) {
+        logger.warn(`Tags: Restaurante não encontrado para ID ${id}`); // Log de aviso
         return res
           .status(404)
           .json({ error: 'Restaurante não encontrado.' });
@@ -144,6 +179,7 @@ exports.getRestaurantTags = (req, res) => {
         ? row.tags.split(',').map(tag => tag.trim())
         : [];
 
+      logger.info(`Tags do restaurante ${id} obtidas: [${tags.join(', ')}]`); // Log de sucesso
       res.json({ tags });
     }
   );

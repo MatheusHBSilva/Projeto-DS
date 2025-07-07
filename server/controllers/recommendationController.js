@@ -1,13 +1,25 @@
+// server/controllers/recommendationController.js
 const { db } = require('../models/db');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const PDFDocument = require('pdfkit');
+const logger = require('../utils/logger'); // Importa o logger
 
 exports.clientRecommendation = async (req, res) => {
   const { restaurantId, format } = req.body;
+  const clientId = req.cookies.clientId;
+
+  logger.info(`Tentativa de gerar recomendação para restaurante ID: ${restaurantId}, cliente ID: ${clientId}, formato: ${format}`); // Log de início
+
+  if (!clientId) {
+      logger.warn('Geração de recomendação falhou: Cliente não autenticado.'); // Log de validação
+      return res.status(401).json({ error: 'Não autenticado.' });
+  }
+  if (!restaurantId) {
+      logger.warn(`Geração de recomendação falhou: ID do restaurante ausente para cliente ID ${clientId}.`); // Log de validação
+      return res.status(400).json({ error: 'ID do restaurante é obrigatório.' });
+  }
 
   try {
-    const clientId = req.cookies.clientId;
-
     // 1. Buscar até 100 avaliações recentes
     const reviews = await new Promise((resolve, reject) => {
       db.all(
@@ -20,6 +32,7 @@ exports.clientRecommendation = async (req, res) => {
         (err, rows) => (err ? reject(err) : resolve(rows))
       );
     });
+    logger.debug(`Recuperadas ${reviews.length} avaliações para o restaurante ${restaurantId}.`); // Log detalhado
 
     // 2. Tags do restaurante e do cliente
     const restaurant = await new Promise((resolve, reject) => {
@@ -29,9 +42,15 @@ exports.clientRecommendation = async (req, res) => {
         (err, row) => (err ? reject(err) : resolve(row))
       );
     });
+    if (!restaurant) {
+        logger.warn(`Geração de recomendação falhou: Restaurante não encontrado para ID ${restaurantId}.`); // Log de validação
+        return res.status(404).json({ error: 'Restaurante não encontrado.' });
+    }
     const restaurantTags = restaurant?.tags
       ? restaurant.tags.split(',').map(t => t.trim())
       : [];
+    logger.debug(`Tags do restaurante ${restaurantId}: [${restaurantTags.join(', ')}]`); // Log detalhado
+
 
     const client = await new Promise((resolve, reject) => {
       db.get(
@@ -40,9 +59,15 @@ exports.clientRecommendation = async (req, res) => {
         (err, row) => (err ? reject(err) : resolve(row))
       );
     });
+    if (!client) {
+        logger.warn(`Geração de recomendação falhou: Cliente não encontrado para ID ${clientId}.`); // Log de validação
+        return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
     const clientTags = client?.tags
       ? client.tags.split(',').map(t => t.trim())
       : [];
+    logger.debug(`Tags do cliente ${clientId}: [${clientTags.join(', ')}]`); // Log detalhado
+
 
     // 3. Montar prompt
     const reviewTexts = reviews
@@ -67,9 +92,11 @@ Analise as seguintes avaliações de um restaurante, incluindo texto e nota (1�
 Seguem as avaliações:
 ${reviewTexts}
     `;
+    logger.debug('Prompt para Gemini preparado.'); // Log detalhado
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      logger.critical('Chave da API do Gemini não configurada no .env. Impossível gerar recomendação.'); // Log crítico
       throw new Error(
         'Chave da API do Gemini não configurada no .env.'
       );
@@ -81,6 +108,7 @@ ${reviewTexts}
     });
     const result = await model.generateContent(prompt);
     const analysis = await result.response.text();
+    logger.info(`Análise de recomendação gerada com sucesso para restaurante ID ${restaurantId}.`); // Log de sucesso
 
     // 4. Gerar PDF ou JSON
     if (format === 'pdf') {
@@ -94,6 +122,7 @@ ${reviewTexts}
           'Content-Disposition',
           `attachment; filename="recomendacao_${restaurantId}.pdf"`
         );
+        logger.info(`PDF de recomendação gerado e enviado para restaurante ID ${restaurantId}.`); // Log de sucesso
         res.send(pdfData);
       });
 
@@ -109,9 +138,10 @@ ${reviewTexts}
       return;
     }
 
+    logger.info(`Recomendação em JSON enviada para restaurante ID ${restaurantId}.`); // Log de sucesso
     res.status(200).json({ analysis });
   } catch (error) {
-    console.error(error);
+    logger.error(`Erro ao gerar recomendação para restaurante ID ${restaurantId}: ${error.message}`, { stack: error.stack, errorName: error.name }); // Log de erro detalhado
     res
       .status(500)
       .json({ error: error.message || 'Erro interno ao gerar recomendação.' });

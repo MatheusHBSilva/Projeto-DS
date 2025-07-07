@@ -1,3 +1,4 @@
+// server/server.js
 require('dotenv').config();
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
@@ -9,6 +10,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const PDFDocument = require('pdfkit');
 
 const { initTables } = require('./models/db');
+const loggerMiddleware = require('./middlewares/loggerMiddleware'); 
 
 const restaurantRoutes = require('./routes/restaurantRoutes');
 const clientRoutes     = require('./routes/clientRoutes');
@@ -27,9 +29,11 @@ initTables();
 
 // Middleware
 app.use(cors({ origin: ['https://sua-app.render.com', 'http://localhost:3000'], credentials: true }));
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.json()); // Middleware para parsear JSON no corpo da requisição
+app.use(cookieParser()); // Middleware para parsear cookies
+// <-- AQUI: Seu middleware de logging para capturar todas as requisições
+app.use(loggerMiddleware); 
+app.use(express.static(path.join(__dirname, '../client'))); // Serve arquivos estáticos do diretório client
 
 
 // Rotas agrupadas
@@ -46,5 +50,5 @@ app.use('/api', reportRoutes);
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

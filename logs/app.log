@@ -1,0 +1,119 @@
+[2025-07-07T17:01:55.200Z] [INFO] Requisição: GET / {"params":{},"query":{}}
+[2025-07-07T17:01:55.300Z] [INFO] Requisição: GET /CSS/hub.css {"params":{},"query":{}}
+[2025-07-07T17:01:56.842Z] [INFO] Requisição: GET /Restaurante/login_restaurant.html {"params":{},"query":{}}
+[2025-07-07T17:01:56.866Z] [INFO] Requisição: GET /CSS/login_restaurant.css {"params":{},"query":{}}
+[2025-07-07T17:01:56.878Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:01:56.893Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:00.603Z] [INFO] Requisição: GET /Restaurante/register.html {"params":{},"query":{}}
+[2025-07-07T17:02:06.017Z] [INFO] Requisição: GET /Cliente/login_client.html {"params":{},"query":{}}
+[2025-07-07T17:02:06.049Z] [INFO] Requisição: GET /CSS/login_client.css {"params":{},"query":{}}
+[2025-07-07T17:02:06.066Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:06.098Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:02:09.214Z] [INFO] Requisição: GET /Restaurante/login_restaurant.html {"params":{},"query":{}}
+[2025-07-07T17:02:09.237Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:09.246Z] [INFO] Requisição: GET /CSS/login_restaurant.css {"params":{},"query":{}}
+[2025-07-07T17:02:09.255Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:02:10.568Z] [INFO] Requisição: GET /Cliente/login_client.html {"params":{},"query":{}}
+[2025-07-07T17:02:10.593Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:10.601Z] [INFO] Requisição: GET /CSS/login_client.css {"params":{},"query":{}}
+[2025-07-07T17:02:10.605Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:02:12.915Z] [INFO] Requisição: GET /Cliente/register_client.html {"params":{},"query":{}}
+[2025-07-07T17:02:12.944Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:12.962Z] [INFO] Requisição: GET /CSS/register.css {"params":{},"query":{}}
+[2025-07-07T17:02:12.972Z] [INFO] Requisição: GET /Cliente/register_client.js {"params":{},"query":{}}
+[2025-07-07T17:02:37.996Z] [INFO] Requisição: POST /api/register-client {"body":{"nome":"aksguks","sobrenome":"kdhfiodh","cpf":"111111","telefone":"11111111","email":"12","senha":"12","tags":"ana,sofia,sushi,teste"},"params":{},"query":{}}
+[2025-07-07T17:02:38.003Z] [INFO] Tentativa de registro de cliente para o email: 12
+[2025-07-07T17:02:38.289Z] [INFO] Cliente registrado com sucesso: 12 (ID: 3)
+[2025-07-07T17:02:40.117Z] [INFO] Requisição: GET /Cliente/login_client.html {"params":{},"query":{}}
+[2025-07-07T17:02:40.144Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:40.150Z] [INFO] Requisição: GET /CSS/login_client.css {"params":{},"query":{}}
+[2025-07-07T17:02:40.161Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:02:46.770Z] [INFO] Requisição: POST /api/login {"body":{"email":"12","password":"qw"},"params":{},"query":{}}
+[2025-07-07T17:02:46.776Z] [INFO] Tentativa de login para o email: 12
+[2025-07-07T17:02:47.042Z] [WARN] Tentativa de login falhou: Email ou senha incorretos para 12
+[2025-07-07T17:02:51.495Z] [INFO] Requisição: POST /api/login {"body":{"email":"12","password":"12"},"params":{},"query":{}}
+[2025-07-07T17:02:51.503Z] [INFO] Tentativa de login para o email: 12
+[2025-07-07T17:02:51.668Z] [INFO] Requisição: POST /api/login {"body":{"email":"12","password":"12"},"params":{},"query":{}}
+[2025-07-07T17:02:51.671Z] [INFO] Tentativa de login para o email: 12
+[2025-07-07T17:02:51.805Z] [INFO] Login de cliente bem-sucedido para: 12 (ID: 3)
+[2025-07-07T17:02:51.846Z] [INFO] Requisição: GET /Cliente/Client_dashboard.html {"params":{},"query":{}}
+[2025-07-07T17:02:51.914Z] [INFO] Requisição: POST /api/login {"body":{"email":"12","password":"12"},"params":{},"query":{}}
+[2025-07-07T17:02:51.919Z] [INFO] Tentativa de login para o email: 12
+[2025-07-07T17:02:51.924Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:51.930Z] [INFO] Requisição: GET /CSS/client_dashboard.css {"params":{},"query":{}}
+[2025-07-07T17:02:51.944Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:02:51.960Z] [INFO] Requisição: GET /Cliente/client_dashboard.js {"params":{},"query":{}}
+[2025-07-07T17:02:51.982Z] [INFO] Requisição: GET /images/profile_picture00.jpg {"params":{},"query":{}}
+[2025-07-07T17:02:52.037Z] [INFO] Requisição: GET /api/client-me {"params":{},"query":{}}
+[2025-07-07T17:02:52.045Z] [INFO] Login de cliente bem-sucedido para: 12 (ID: 3)
+[2025-07-07T17:02:52.052Z] [INFO] Cliente atual obtido: aksguks kdhfiodh (ID: 3)
+[2025-07-07T17:02:52.079Z] [INFO] Requisição: GET /api/favorites {"params":{},"query":{}}
+[2025-07-07T17:02:52.120Z] [INFO] Buscando IDs de restaurantes favoritos para cliente ID: 3
+[2025-07-07T17:02:52.132Z] [INFO] Retornados 0 IDs de favoritos para o cliente 3.
+[2025-07-07T17:02:52.170Z] [INFO] Requisição: GET /api/restaurants?limit=5&random=true {"params":{},"query":{"limit":"5","random":"true"}}
+[2025-07-07T17:02:52.182Z] [INFO] Buscando restaurantes com filtros: ID=undefined, Limit=5, Random=true, Search=undefined
+[2025-07-07T17:02:52.221Z] [INFO] Retornados 5 restaurantes.
+[2025-07-07T17:02:52.369Z] [INFO] Login de cliente bem-sucedido para: 12 (ID: 3)
+[2025-07-07T17:02:55.743Z] [INFO] Requisição: GET /Cliente/review.html?id=48 {"params":{},"query":{"id":"48"}}
+[2025-07-07T17:02:55.764Z] [INFO] Requisição: GET /CSS/review.css {"params":{},"query":{}}
+[2025-07-07T17:02:55.772Z] [INFO] Requisição: GET /Cliente/review.js {"params":{},"query":{}}
+[2025-07-07T17:02:55.794Z] [INFO] Requisição: GET /images/restaurant_stock.jpg {"params":{},"query":{}}
+[2025-07-07T17:02:55.849Z] [INFO] Requisição: GET /api/restaurants?id=48 {"params":{},"query":{"id":"48"}}
+[2025-07-07T17:02:55.879Z] [INFO] Buscando restaurantes com filtros: ID=48, Limit=undefined, Random=undefined, Search=undefined
+[2025-07-07T17:02:55.887Z] [INFO] Retornados 1 restaurantes.
+[2025-07-07T17:02:55.932Z] [INFO] Requisição: GET /api/restaurant-tags?id=48 {"params":{},"query":{"id":"48"}}
+[2025-07-07T17:02:55.937Z] [INFO] Tags do restaurante 48 obtidas: [lanche, gourmet]
+[2025-07-07T17:02:57.844Z] [INFO] Requisição: GET /Cliente/client_dashboard.html {"params":{},"query":{}}
+[2025-07-07T17:02:57.883Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:02:57.897Z] [INFO] Requisição: GET /CSS/client_dashboard.css {"params":{},"query":{}}
+[2025-07-07T17:02:57.911Z] [INFO] Requisição: GET /images/profile_picture00.jpg {"params":{},"query":{}}
+[2025-07-07T17:02:57.921Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:02:57.932Z] [INFO] Requisição: GET /Cliente/client_dashboard.js {"params":{},"query":{}}
+[2025-07-07T17:02:57.970Z] [INFO] Requisição: GET /api/client-me {"params":{},"query":{}}
+[2025-07-07T17:02:57.983Z] [INFO] Cliente atual obtido: aksguks kdhfiodh (ID: 3)
+[2025-07-07T17:02:57.996Z] [INFO] Requisição: GET /api/favorites {"params":{},"query":{}}
+[2025-07-07T17:02:58.006Z] [INFO] Buscando IDs de restaurantes favoritos para cliente ID: 3
+[2025-07-07T17:02:58.016Z] [INFO] Retornados 0 IDs de favoritos para o cliente 3.
+[2025-07-07T17:02:58.023Z] [INFO] Requisição: GET /api/restaurants?limit=5&random=true {"params":{},"query":{"limit":"5","random":"true"}}
+[2025-07-07T17:02:58.032Z] [INFO] Buscando restaurantes com filtros: ID=undefined, Limit=5, Random=true, Search=undefined
+[2025-07-07T17:02:58.038Z] [INFO] Retornados 5 restaurantes.
+[2025-07-07T17:02:59.387Z] [INFO] Requisição: GET /Cliente/review.html?id=50 {"params":{},"query":{"id":"50"}}
+[2025-07-07T17:02:59.417Z] [INFO] Requisição: GET /CSS/review.css {"params":{},"query":{}}
+[2025-07-07T17:02:59.431Z] [INFO] Requisição: GET /Cliente/review.js {"params":{},"query":{}}
+[2025-07-07T17:02:59.451Z] [INFO] Requisição: GET /images/restaurant_stock.jpg {"params":{},"query":{}}
+[2025-07-07T17:02:59.484Z] [INFO] Requisição: GET /api/restaurants?id=50 {"params":{},"query":{"id":"50"}}
+[2025-07-07T17:02:59.487Z] [INFO] Buscando restaurantes com filtros: ID=50, Limit=undefined, Random=undefined, Search=undefined
+[2025-07-07T17:02:59.501Z] [INFO] Retornados 1 restaurantes.
+[2025-07-07T17:02:59.511Z] [INFO] Requisição: GET /api/restaurant-tags?id=50 {"params":{},"query":{"id":"50"}}
+[2025-07-07T17:02:59.516Z] [INFO] Tags do restaurante 50 obtidas: [japonês, barato, churrasco]
+[2025-07-07T17:03:01.217Z] [INFO] Requisição: POST /api/client-recommendation {"body":{"restaurantId":"50","format":"json"},"params":{},"query":{}}
+[2025-07-07T17:03:01.222Z] [INFO] Tentativa de gerar recomendação para restaurante ID: 50, cliente ID: 3, formato: json
+[2025-07-07T17:03:01.231Z] [DEBUG] Recuperadas 44 avaliações para o restaurante 50.
+[2025-07-07T17:03:01.234Z] [DEBUG] Tags do restaurante 50: [japonês, barato, churrasco]
+[2025-07-07T17:03:01.244Z] [DEBUG] Tags do cliente 3: [ana, sofia, sushi, teste]
+[2025-07-07T17:03:01.245Z] [DEBUG] Prompt para Gemini preparado.
+[2025-07-07T17:03:01.247Z] [CRITICAL] Chave da API do Gemini não configurada no .env. Impossível gerar recomendação.
+[2025-07-07T17:03:01.253Z] [ERROR] Erro ao gerar recomendação para restaurante ID 50: Chave da API do Gemini não configurada no .env. {"stack":"Error: Chave da API do Gemini não configurada no .env.\n    at exports.clientRecommendation (C:\\Users\\Sofia\\Desktop\\minhaBranch\\Projeto-DS\\server\\controllers\\recommendationController.js:100:13)","errorName":"Error"}
+[2025-07-07T17:04:03.256Z] [INFO] Requisição: GET /Cliente/client_dashboard.html {"params":{},"query":{}}
+[2025-07-07T17:04:03.279Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:04:03.289Z] [INFO] Requisição: GET /CSS/client_dashboard.css {"params":{},"query":{}}
+[2025-07-07T17:04:03.298Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:04:03.301Z] [INFO] Requisição: GET /Cliente/client_dashboard.js {"params":{},"query":{}}
+[2025-07-07T17:04:03.316Z] [INFO] Requisição: GET /images/profile_picture00.jpg {"params":{},"query":{}}
+[2025-07-07T17:04:03.329Z] [INFO] Requisição: GET /api/client-me {"params":{},"query":{}}
+[2025-07-07T17:04:03.333Z] [INFO] Cliente atual obtido: aksguks kdhfiodh (ID: 3)
+[2025-07-07T17:04:03.358Z] [INFO] Requisição: GET /api/favorites {"params":{},"query":{}}
+[2025-07-07T17:04:03.362Z] [INFO] Buscando IDs de restaurantes favoritos para cliente ID: 3
+[2025-07-07T17:04:03.364Z] [INFO] Retornados 0 IDs de favoritos para o cliente 3.
+[2025-07-07T17:04:03.372Z] [INFO] Requisição: GET /api/restaurants?limit=5&random=true {"params":{},"query":{"limit":"5","random":"true"}}
+[2025-07-07T17:04:03.376Z] [INFO] Buscando restaurantes com filtros: ID=undefined, Limit=5, Random=true, Search=undefined
+[2025-07-07T17:04:03.380Z] [INFO] Retornados 5 restaurantes.
+[2025-07-07T17:04:05.206Z] [INFO] Requisição: POST /api/logout {"params":{},"query":{}}
+[2025-07-07T17:04:05.209Z] [INFO] Logout realizado para cliente com ID: 3
+[2025-07-07T17:04:05.242Z] [INFO] Requisição: GET /index.html {"params":{},"query":{}}
+[2025-07-07T17:04:05.265Z] [INFO] Requisição: GET /CSS/hub.css {"params":{},"query":{}}
+[2025-07-07T17:04:06.592Z] [INFO] Requisição: GET /Restaurante/login_restaurant.html {"params":{},"query":{}}
+[2025-07-07T17:04:06.613Z] [INFO] Requisição: GET /CSS/styles.css {"params":{},"query":{}}
+[2025-07-07T17:04:06.616Z] [INFO] Requisição: GET /CSS/login_restaurant.css {"params":{},"query":{}}
+[2025-07-07T17:04:06.627Z] [INFO] Requisição: GET /auth.js {"params":{},"query":{}}
+[2025-07-07T17:04:09.108Z] [INFO] Requisição: GET /Restaurante/register.html {"params":{},"query":{}}
