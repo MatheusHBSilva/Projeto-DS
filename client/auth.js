@@ -37,7 +37,7 @@ async function login(expectedType) {
 
     // redirecionamento conforme o tipo  
     window.location.href = data.userType === 'restaurant'  
-      ? '/Restaurante/dashboard.html'  
+      ? '/Restaurante/restaurant_dashboard.html'  
       : '/Cliente/Client_dashboard.html';  
 
   } catch (err) {  
