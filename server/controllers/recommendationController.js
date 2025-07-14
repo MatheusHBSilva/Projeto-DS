@@ -1,4 +1,6 @@
-const { db } = require('../models/db');
+const { selectReviews } = require('../models/reviewsModel');
+const { selectRestaurantTags } = require('../models/restaurantModels');
+const { selectClientTags } = require('../models/clientModels');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const PDFDocument = require('pdfkit');
 
@@ -9,37 +11,16 @@ exports.clientRecommendation = async (req, res) => {
     const clientId = req.cookies.clientId;
 
     // 1. Buscar até 100 avaliações recentes
-    const reviews = await new Promise((resolve, reject) => {
-      db.all(
-        `SELECT reviewer_name, rating, review_text
-         FROM reviews
-         WHERE restaurant_id = ?
-         ORDER BY created_at DESC
-         LIMIT 100`,
-        [restaurantId],
-        (err, rows) => (err ? reject(err) : resolve(rows))
-      );
-    });
+    const reviews = await selectReviews( restaurantId, 100 );
 
     // 2. Tags do restaurante e do cliente
-    const restaurant = await new Promise((resolve, reject) => {
-      db.get(
-        'SELECT tags FROM restaurants WHERE id = ?',
-        [restaurantId],
-        (err, row) => (err ? reject(err) : resolve(row))
-      );
-    });
+    const restaurant = await selectRestaurantTags( restaurantId );
+
     const restaurantTags = restaurant?.tags
       ? restaurant.tags.split(',').map(t => t.trim())
       : [];
 
-    const client = await new Promise((resolve, reject) => {
-      db.get(
-        'SELECT tags FROM clients WHERE id = ?',
-        [clientId],
-        (err, row) => (err ? reject(err) : resolve(row))
-      );
-    });
+    const client = await selectClientTags( clientId );
     const clientTags = client?.tags
       ? client.tags.split(',').map(t => t.trim())
       : [];

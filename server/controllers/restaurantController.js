@@ -1,18 +1,12 @@
 const bcrypt = require('bcrypt');
-const { db } = require('../models/db');
+const{ selectEmailRestaurant, insertRestaurant, getCurrentRestaurantModel, getRestaurantsModel, selectRestaurantTags } = require('../models/restaurantModels');
 
 exports.registerRestaurant = async (req, res) => {
   const { restaurantName, cnpj, email, password, tags } = req.body;
 
   try {
     // Verifica email existente
-    const existingUser = await new Promise((resolve, reject) => {
-      db.get(
-        'SELECT email FROM restaurants WHERE email = ?',
-        [email],
-        (err, row) => (err ? reject(err) : resolve(row))
-      );
-    });
+    const existingUser = await selectEmailRestaurant( email );
 
     if (existingUser) {
       return res.status(400).json({ error: 'Este email já está registrado.' });
@@ -20,22 +14,7 @@ exports.registerRestaurant = async (req, res) => {
 
     // Cria hash da senha e insere no BD
     const hashedPassword = await bcrypt.hash(password, 10);
-    await new Promise((resolve, reject) => {
-      db.run(
-        `INSERT INTO restaurants 
-          (restaurant_name, cnpj, email, password, tags, created_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-        [
-          restaurantName,
-          cnpj,
-          email,
-          hashedPassword,
-          tags || '',
-          new Date().toISOString()
-        ],
-        err => (err ? reject(err) : resolve())
-      );
-    });
+    await insertRestaurant( restaurantName, cnpj, email, hashedPassword, tags );
 
     res.status(201).json({ message: 'Registro salvo com sucesso!' });
   } catch (error) {
@@ -44,32 +23,30 @@ exports.registerRestaurant = async (req, res) => {
   }
 };
 
-exports.getCurrentRestaurant = (req, res) => {
+exports.getCurrentRestaurant = async (req, res) => {
   const restaurantId = req.cookies.restaurantId;
 
-  db.get(
-    'SELECT id, restaurant_name, tags FROM restaurants WHERE id = ?',
-    [restaurantId],
-    (err, row) => {
-      if (err) {
-        return res.status(500).json({ error: 'Erro interno no servidor.' });
-      }
-      if (!row) {
-        return res.status(404).json({ error: 'Restaurante não encontrado.' });
-      }
+  try {
+    const row = await getCurrentRestaurantModel( restaurantId );
 
-      res.json({
+    if (!row) {
+        return res.status(404).json({ error: 'Restaurante não encontrado.' });
+    }
+
+    res.json({
         restaurantId:   row.id,
         restaurantName: row.restaurant_name,
         tags:           row.tags
                            ? row.tags.split(',').map(tag => tag.trim())
                            : []
-      });
-    }
-  );
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
 };
 
-exports.getRestaurants = (req, res) => {
+exports.getRestaurants = async (req, res) => {
   const { id, limit, random, search } = req.query;
 
   let query = `
@@ -102,10 +79,8 @@ exports.getRestaurants = (req, res) => {
     params.push(parseInt(limit, 10));
   }
 
-  db.all(query, params, (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Erro interno no servidor.' });
-    }
+  try {
+    const rows = await getRestaurantsModel( query, params );
 
     if (rows.length === 0 && id) {
       return res.status(404).json({ error: 'Restaurante não encontrado.' });
@@ -119,32 +94,33 @@ exports.getRestaurants = (req, res) => {
     }));
 
     res.json({ restaurants });
-  });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
 };
 
-exports.getRestaurantTags = (req, res) => {
+exports.getRestaurantTags = async (req, res) => {
   const { id } = req.query;
 
-  db.get(
-    'SELECT tags FROM restaurants WHERE id = ?',
-    [id],
-    (err, row) => {
-      if (err) {
-        return res
-          .status(500)
-          .json({ error: 'Erro interno no servidor.' });
-      }
-      if (!row) {
-        return res
-          .status(404)
-          .json({ error: 'Restaurante não encontrado.' });
-      }
+  try {
+    const row = await selectRestaurantTags( restaurantId );
 
-      const tags = row.tags
-        ? row.tags.split(',').map(tag => tag.trim())
-        : [];
-
-      res.json({ tags });
+    if (!row) {
+      return res
+        .status(404)
+        .json({ error: 'Restaurante não encontrado.' });
     }
-  );
+
+    const tags = row.tags
+      ? row.tags.split(',').map(tag => tag.trim())
+      : [];
+
+    res.json({ tags });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: 'Erro interno no servidor.' });
+  }
 };

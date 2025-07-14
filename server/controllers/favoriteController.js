@@ -1,26 +1,10 @@
-const { db } = require('../models/db');
+const { selectFavorites, getFavoriteIdsModel, insertFavorites, deleteFavorites } = require('../models/favoritesModels');
 
-exports.getFavoriteRestaurants = (req, res) => {
+exports.getFavoriteRestaurants = async (req, res) => {
   const clientId = req.cookies.clientId;
 
-  const query = `
-    SELECT r.id,
-           r.restaurant_name,
-           COALESCE(AVG(rev.rating), 0) AS average_rating,
-           COUNT(rev.rating)          AS review_count
-    FROM restaurants r
-    LEFT JOIN reviews rev
-      ON r.id = rev.restaurant_id
-    INNER JOIN favoritos f
-      ON r.id = f.restaurant_id
-    WHERE f.client_id = ?
-    GROUP BY r.id, r.restaurant_name
-  `;
-
-  db.all(query, [clientId], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Erro interno no servidor.' });
-    }
+  try {
+    const rows = await selectFavorites(clientId);
 
     const restaurants = rows.map(row => ({
       id:              row.id,
@@ -30,22 +14,24 @@ exports.getFavoriteRestaurants = (req, res) => {
     }));
 
     res.json({ restaurants });
-  });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
 };
 
-exports.getFavoriteIds = (req, res) => {
+exports.getFavoriteIds = async (req, res) => {
   const clientId = req.cookies.clientId;
 
-  db.all(
-    'SELECT restaurant_id FROM favoritos WHERE client_id = ?',
-    [clientId],
-    (err, rows) => {
-      if (err) {
-        return res.status(500).json({ error: 'Erro interno no servidor.' });
-      }
-      res.json({ favorites: rows.map(r => r.restaurant_id) });
-    }
-  );
+  try {
+    const rows = await getFavoriteIdsModel(clientId);
+
+    res.json({ favorites: rows.map(r => r.restaurant_id) });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
 };
 
 exports.toggleFavorite = async (req, res) => {
@@ -63,30 +49,14 @@ exports.toggleFavorite = async (req, res) => {
 
   try {
     if (action === 'add') {
-      await new Promise((resolve, reject) => {
-        db.run(
-          `INSERT INTO favoritos 
-             (client_id, restaurant_id, created_at) 
-           VALUES (?, ?, ?)`,
-          [clientId, restaurantId, new Date().toISOString()],
-          err => (err ? reject(err) : resolve())
-        );
-      });
+      await insertFavorites( clientId, restaurantId );
       return res
         .status(201)
         .json({ message: 'Restaurante adicionado aos favoritos!' });
     }
 
     if (action === 'remove') {
-      await new Promise((resolve, reject) => {
-        db.run(
-          `DELETE FROM favoritos 
-           WHERE client_id = ? 
-             AND restaurant_id = ?`,
-          [clientId, restaurantId],
-          err => (err ? reject(err) : resolve())
-        );
-      });
+      await deleteFavorites( clientId, restaurantId );
       return res
         .status(200)
         .json({ message: 'Restaurante removido dos favoritos!' });

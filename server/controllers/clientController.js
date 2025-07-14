@@ -1,18 +1,12 @@
 const bcrypt = require('bcrypt');
-const { db } = require('../models/db');
+const { selectEmailClient, insertClients, getCurrentClientModel } = require('../models/clientModels');
 
 exports.registerClient = async (req, res) => {
   const { nome, sobrenome, cpf, telefone, email, senha, tags } = req.body;
 
   try {
     // Verifica email ou CPF já cadastrado
-    const existingClient = await new Promise((resolve, reject) => {
-      db.get(
-        'SELECT email FROM clients WHERE email = ? OR cpf = ?',
-        [email, cpf],
-        (err, row) => (err ? reject(err) : resolve(row))
-      );
-    });
+    const existingClient = await selectEmailClient(email, cpf);
 
     if (existingClient) {
       return res
@@ -22,26 +16,7 @@ exports.registerClient = async (req, res) => {
 
     // Hash da senha e inserção no BD
     const hashedPassword = await bcrypt.hash(senha, 10);
-    await new Promise((resolve, reject) => {
-      db.run(
-        `
-        INSERT INTO clients
-          (nome, sobrenome, cpf, telefone, email, senha, tags, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `,
-        [
-          nome,
-          sobrenome,
-          cpf,
-          telefone,
-          email,
-          hashedPassword,
-          tags || '',
-          new Date().toISOString()
-        ],
-        err => (err ? reject(err) : resolve())
-      );
-    });
+    await insertClients(nome, sobrenome, cpf, telefone, email, hashedPassword, tags);
 
     res.status(201).json({ message: 'Cadastro salvo com sucesso!' });
   } catch (error) {
@@ -50,21 +25,17 @@ exports.registerClient = async (req, res) => {
   }
 };
 
-exports.getCurrentClient = (req, res) => {
+exports.getCurrentClient = async (req, res) => {
   const clientId = req.cookies.clientId;
   
-  db.get(
-    'SELECT id, nome, sobrenome, email, tags FROM clients WHERE id = ?',
-    [clientId],
-    (err, row) => {
-      if (err) {
-        return res.status(500).json({ error: 'Erro interno no servidor.' });
-      }
-      if (!row) {
-        return res.status(404).json({ error: 'Cliente não encontrado.' });
-      }
+  try {
+    const row = await getCurrentClientModel(clientId);
 
-      res.json({
+    if (!row) {
+        return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
+
+    res.json({
         clientId:   row.id,
         nome:       row.nome,
         sobrenome:  row.sobrenome,
@@ -73,7 +44,10 @@ exports.getCurrentClient = (req, res) => {
                        ? row.tags.split(',').map(tag => tag.trim())
                        : []
       });
-    }
-  );
+
+  } catch(error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
 };
 

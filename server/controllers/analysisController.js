@@ -1,5 +1,6 @@
 // controllers/analysisController.js
-const { db } = require('../models/db');
+const { selectReviews } = require('../models/reviewsModel');
+const { insertReport } = require('../models/reportsModel');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const PDFDocument = require('pdfkit');
 
@@ -8,17 +9,7 @@ exports.businessAnalysis = async (req, res) => {
 
   try {
     // 1. Busca até 50 avaliações recentes
-    const reviews = await new Promise((resolve, reject) => {
-      db.all(
-        `SELECT reviewer_name, rating, review_text, created_at
-         FROM reviews
-         WHERE restaurant_id = ?
-         ORDER BY created_at DESC
-         LIMIT 50`,
-        [restaurantId],
-        (err, rows) => (err ? reject(err) : resolve(rows))
-      );
-    });
+    const reviews = await selectReviews(restaurantId, 50);
 
     // 2. Monta prompt para Gemini
     const prompt = `
@@ -52,14 +43,7 @@ exports.businessAnalysis = async (req, res) => {
     const analysis = await result.response.text();
 
     // 4. Salva no banco de dados
-    await new Promise((resolve, reject) => {
-      db.run(
-        `INSERT INTO reports (restaurant_id, analysis, created_at)
-         VALUES (?, ?, ?)`,
-        [restaurantId, analysis, new Date().toISOString()],
-        err => (err ? reject(err) : resolve())
-      );
-    });
+    await insertReport(restaurantId, analysis);
 
     // 5. Se PDF, gera e envia o buffer
     if (format === 'pdf') {

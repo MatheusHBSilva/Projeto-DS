@@ -1,7 +1,7 @@
-const { db } = require('../models/db');
+const { getReportModel, downloadReportModel } = require('../models/reportsModel');
 const PDFDocument = require('pdfkit');
 
-exports.getReportHistory = (req, res) => {
+exports.getReportHistory = async (req, res) => {
   const { restaurantId } = req.query;
 
   const sql = `
@@ -14,14 +14,16 @@ exports.getReportHistory = (req, res) => {
     LIMIT 10
   `;
 
-  db.all(sql, [restaurantId], (err, rows) => {
-    if (err) {
-      return res
+  try {
+    const rows = await getReportModel( restaurantId, sql );
+
+    res.json({ reports: rows });
+  } catch (error) {
+    console.error(error);
+    return res
         .status(500)
         .json({ error: 'Erro interno no servidor.' });
-    }
-    res.json({ reports: rows });
-  });
+  }
 };
 
 exports.downloadReport = async (req, res) => {
@@ -29,15 +31,7 @@ exports.downloadReport = async (req, res) => {
 
   try {
     // Busca o relatório no banco
-    const report = await new Promise((resolve, reject) => {
-      db.get(
-        `SELECT restaurant_id, analysis, created_at
-         FROM reports
-         WHERE id = ?`,
-        [reportId],
-        (err, row) => (err ? reject(err) : resolve(row))
-      );
-    });
+    const report = await downloadReportModel( reportId );
 
     if (!report) {
       return res
