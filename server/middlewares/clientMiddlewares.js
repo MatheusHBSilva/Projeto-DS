@@ -1,5 +1,5 @@
 function validateRegisterClient(req, res, next) {
-    const { nome, sobrenome, cpf, telefone, email, senha, tags } = req.body;
+    const { nome, sobrenome, cpf, telefone, email, senha } = req.body;
 
     if (!nome || !sobrenome || !cpf || !telefone || !email || !senha) {
         return res

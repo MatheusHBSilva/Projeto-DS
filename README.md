@@ -40,3 +40,24 @@ npm install express sqlite3 bcrypt cors cookie-parser @google/generative-ai pdfk
 npm start
 ```
 1. Acesse o localhost no seu navegador.
+
+## Rodando os testes 
+
+O projeto utiliza a ferramenta Jest para testes unitários de backend.
+
+0. Se você clonou o repositório, rode o comando.
+```jsx
+npm install
+```
+1. Se quiser rodar todos os testes, digite no terminal.
+```jsx
+npm test
+```
+2. Se quiser rodar um teste específico, digite no terminal.
+```jsx
+npm test nome-do-arquivo
+```
+3. Para analisar a cobertura de código com testes, rode no terminal.
+```jsx
+npx jest --coverage
+```

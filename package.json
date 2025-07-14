@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Nenhum teste configurado.\"",
+    "test": "jest",
     "start": "node server/server.js"
   },
   "keywords": [],
