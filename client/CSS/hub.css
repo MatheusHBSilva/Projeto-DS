@@ -1,47 +1,133 @@
-body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  background-color: #f5f2e9;
-  flex-direction: column;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
 }
 
-.logo {
-  font-size: 3rem;
-  font-weight: bold;
-  color: #5b7461;
-  margin-bottom: 1rem;
+.Tela_inicial {
+    background-image: url('/images/fundo.png');
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    background-attachment: fixed; 
+    height: 100vh; 
+    min-height: 500px;
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; 
+    text-align: left; 
+    color: white; 
+    padding: 20px;
+    box-sizing: border-box;
+    padding-left: 80px; 
 }
 
-.logo span {
-  color: #f28c38;
+.Logo {
+    position: relative; 
+    top:5%;
+    margin-bottom: 10px;
 }
 
-.description {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 2rem;
+.Logo img {
+    height: auto; 
+    width: 170%;
+    max-width: 100vw;
 }
 
-.buttons {
-  display: flex;
-  gap: 1rem;
+.Tela_inicial h1 {
+    font-size: 3em;
+    line-height: 1.2;
+    max-width: 700px; 
+    padding-top: 60px; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    margin-right: auto; 
+
 }
+
+.men {
+    position: absolute;
+    top:center;
+    left:45%;
+}
+
+.men img {
+    height: auto; 
+    width: 90%;
+}
+
+.slogan {
+    font-size: 100%;
+    margin-top: 10px;
+}
+
+.profile{
+    font-size: 135%;
+}
+
+.bottons{
+    display: flex;
+    gap: 1rem; 
+    max-width: 450px;
+    margin-left: 0;   
+    margin-right: auto; 
+    justify-content: flex-start; }
 
 button {
-  padding: 0.75rem 2rem;
-  font-size: 1.1rem;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
   color: white;
-  background-color: #5b7461;
+  background-color: #7c8046;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 button:hover {
   background-color: #4a5f50;
+}
+
+@media (max-width: 1310px){
+    .men {
+        display: none;
+    }
+}    
+
+@media (max-width: 600px) {
+    .Tela_inicial h1 {
+        font-size: 2.2em; 
+        max-width: 95%; 
+        padding-top: 20px; 
+    }
+
+    .profile {
+        font-size: 1.35em;
+        max-width: 95%;
+        margin-bottom: 30px;
+    }
+
+    .bottons {
+        flex-direction: column; 
+        gap: 15px; 
+        width: 100%; 
+        max-width: 300px; 
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .Logo {
+        top: 10%;  
+        max-width: 35vw;
+        height: auto; 
+    }
+
+    .Tela_inicial {
+        padding-left: 20px; 
+        padding-right: 20px; 
+    }
 }
