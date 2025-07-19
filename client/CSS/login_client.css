@@ -4,16 +4,14 @@ body, html {
     height: 100%; 
     font-family: Arial, sans-serif; 
     line-height: 1.6; 
-}
-
-.container{
-    background-image: url('/images/fundo_login.png');
+    background-image: url('/images/fundo_login.jpg');
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center; 
     background-attachment: fixed; 
-    height: 100vh; 
-    min-height: 500px;
+}
+
+.container{
     position: relative; 
     display: flex;
     flex-direction: column;
@@ -22,6 +20,7 @@ body, html {
     text-align: left; 
     color: #7c8046;; 
     box-sizing: border-box;
+    min-height: 100vh;
 
 }
 
@@ -64,7 +63,7 @@ body, html {
 
 .form-group label {
   display: block;
-  color: #333;
+  color: #3d3d3d;
 }
 
 .form-group input {
@@ -91,7 +90,7 @@ button:hover {
 }
 
 .links a {
-  color: #333;
+  color: #3d3d3d;
   text-decoration: underline;
   cursor: pointer;
 }
@@ -99,7 +98,10 @@ button:hover {
 @media (max-width: 768px) {
     .container {
         align-items: center;
-        padding: 15px;
+        min-height: auto; 
+        justify-content: flex-start; 
+        padding-top: 20px; 
+        padding-bottom: 20px;
     }
     .login-container {
         margin-left: 0;

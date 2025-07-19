@@ -4,11 +4,11 @@ body, html {
     height: 100%; 
     font-family: Arial, sans-serif; 
     line-height: 1.6; 
-    background-image: url('/images/fundo_login.png');
+    background-image: url('/images/fundo_login.jpg');
     background-size: cover;
     background-repeat:repeat; 
     background-position: center center; 
-    background-attachment: scroll;
+    background-attachment: fixed;
 }
 
 .container{
