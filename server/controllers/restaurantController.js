@@ -104,7 +104,7 @@ exports.getRestaurantTags = async (req, res) => {
   const { id } = req.query;
 
   try {
-    const row = await selectRestaurantTags( restaurantId );
+    const row = await selectRestaurantTags( id );
 
     if (!row) {
       return res
