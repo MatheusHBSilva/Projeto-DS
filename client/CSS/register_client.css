@@ -4,16 +4,14 @@ body, html {
     height: 100%; 
     font-family: Arial, sans-serif; 
     line-height: 1.6; 
+    background-image: url('/images/fundo_login.png');
+    background-size: cover;
+    background-repeat:repeat; 
+    background-position: center center; 
+    background-attachment: scroll;
 }
 
 .container{
-    background-image: url('/images/fundo_login.png');
-    background-size: cover;
-    background-repeat: no-repeat; 
-    background-position: center center; 
-    background-attachment: fixed; 
-    height: 100vh; 
-    min-height: 500px;
     position: relative; 
     display: flex;
     flex-direction: column;
@@ -22,44 +20,32 @@ body, html {
     text-align: left; 
     color: #7c8046;; 
     box-sizing: border-box;
-
+    min-height: 100vh;
 }
 
-.login-container {
+.register-container {
   background-color: #f9fadc;
   padding:2rem;
-  padding-bottom: 5rem;
-  padding-top: 4rem;
+  padding-bottom: 1rem;
+  padding-top: 2rem;
   border-radius: 10px;
   text-align: center;
   width: 100%;
   max-width: 400px;
   margin-right: 20%;
-  margin-left: 20%;
 
 }
-.login-container h1 {
+.register-container h1 {
   font-size: 1em;
-  margin-top: -8%;
 }
 
 .logo {
-  margin-bottom: 0%;
+  margin-bottom: -8%;
 }
-
-.bem_vindo {
-  color: #7c8046;
-  margin-bottom: 1%;
-}
-
-.frase {
-  font-size: 0.9em;
-  color: #3d3d3d;
-}
-
 .form-group {
   margin-bottom: 1rem;
   text-align: left;
+  margin-left: 1%;
 }
 
 .form-group label {
@@ -90,21 +76,41 @@ button:hover {
   background-color: #4a5f50;
 }
 
-.links a {
-  color: #333;
-  text-decoration: underline;
-  cursor: pointer;
+.back-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #5b7461;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.back-link:hover {
+  background-color: #4a5f50;
+}
+
+.dual-input {
+  display: flex;
+  gap: 1rem;
+}
+
+.dual-input .form-group {
+  flex: 1;
 }
 
 @media (max-width: 768px) {
     .container {
         align-items: center;
-        padding: 15px;
+        min-height: auto; 
+        justify-content: flex-start; 
+        padding-top: 20px; 
+        padding-bottom: 20px;
     }
-    .login-container {
+    .register-container {
         margin-left: 0;
         margin-right: 0;
-        max-width: 95%;
+        max-width: 90%;
         padding: 1.5rem;
         padding-bottom: 3rem;
         padding-top: 2.5rem;
