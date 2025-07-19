@@ -4,32 +4,31 @@ body, html {
     height: 100%; 
     font-family: Arial, sans-serif; 
     line-height: 1.6; 
-}
-
-.Tela_inicial {
-    background-image: url('/images/fundo.png');
+    background-image: url('/images/fundo.jpg');
     background-size: cover;
     background-repeat: no-repeat; 
     background-position: center center; 
     background-attachment: fixed; 
+}
+
+.Tela_inicial {
+
     height: 100vh; 
     min-height: 500px;
     position: relative; 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-start; 
     text-align: left; 
     color: white; 
-    padding: 20px;
     box-sizing: border-box;
     padding-left: 80px; 
+    padding-top: 8%;
 }
 
 .Logo {
     position: relative; 
-    top:5%;
-    margin-bottom: 10px;
+    margin-bottom: -3%;
 }
 
 .Logo img {
@@ -41,12 +40,12 @@ body, html {
 .Tela_inicial h1 {
     font-size: 3em;
     line-height: 1.2;
-    max-width: 700px; 
-    padding-top: 60px; 
-    margin-top: 20px; 
-    margin-bottom: 20px; 
+    max-width: 700px;
     margin-right: auto; 
 
+}
+.slogan h1{
+    margin-bottom: -1%;
 }
 
 .men {
@@ -62,7 +61,6 @@ body, html {
 
 .slogan {
     font-size: 100%;
-    margin-top: 10px;
 }
 
 .profile{
