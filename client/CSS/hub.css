@@ -11,7 +11,7 @@ body, html {
     background-attachment: fixed; 
 }
 
-.Tela_inicial {
+.screen {
 
     height: 100vh; 
     min-height: 500px;
@@ -26,18 +26,18 @@ body, html {
     padding-top: 8%;
 }
 
-.Logo {
+.logo {
     position: relative; 
     margin-bottom: -3%;
 }
 
-.Logo img {
+.logo img {
     height: auto; 
     width: 170%;
     max-width: 100vw;
 }
 
-.Tela_inicial h1 {
+.screen h1 {
     font-size: 3em;
     line-height: 1.2;
     max-width: 700px;
@@ -97,7 +97,7 @@ button:hover {
 }    
 
 @media (max-width: 600px) {
-    .Tela_inicial h1 {
+    .screen h1 {
         font-size: 2.2em; 
         max-width: 95%; 
         padding-top: 20px; 
@@ -118,13 +118,12 @@ button:hover {
         margin-right: auto;
     }
 
-    .Logo {
-        top: 10%;  
+    .logo {
         max-width: 35vw;
         height: auto; 
     }
 
-    .Tela_inicial {
+    .screen {
         padding-left: 20px; 
         padding-right: 20px; 
     }

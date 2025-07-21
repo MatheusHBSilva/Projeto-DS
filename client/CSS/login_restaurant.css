@@ -21,7 +21,6 @@ body, html {
     color: #7c8046;; 
     box-sizing: border-box;
     min-height: 100vh;
-
 }
 
 .login-container {
@@ -35,8 +34,8 @@ body, html {
   max-width: 400px;
   margin-right: 20%;
   margin-left: 20%;
-
 }
+
 .login-container h1 {
   font-size: 1em;
   margin-top: -8%;
@@ -46,12 +45,12 @@ body, html {
   margin-bottom: 0%;
 }
 
-.bem_vindo {
+.welcome {
   color: #7c8046;
   margin-bottom: 1%;
 }
 
-.frase {
+.sentence {
   font-size: 0.9em;
   color: #3d3d3d;
 }
@@ -111,4 +110,4 @@ button:hover {
         padding-bottom: 3rem;
         padding-top: 2.5rem;
     }
-  }
+}
