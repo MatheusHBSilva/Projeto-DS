@@ -11,12 +11,11 @@ body, html {
     background-attachment: fixed;  
 }
 
-.tela{
+.screen{
     display: flex;
     align-items: center;
     flex-direction: column;
     margin: 0px;
-
 }
 
 .container {
@@ -27,8 +26,7 @@ body, html {
     gap: 30px;
     flex-wrap: wrap;
     min-height: 500px;
-    width: auto;
-     
+    width: auto;  
 }
 
 .restaurant-card {
@@ -80,17 +78,14 @@ body, html {
     text-align: center;
     font-size: 1.5rem;
     line-height: 0.5; 
-
 }
 
 .aval{
   flex-wrap: nowrap;
 }
 
-
 .stars_p{
     margin: 0 auto; 
-
 }
 
 .restaurant-icon {
@@ -104,9 +99,9 @@ body, html {
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
-    width: 100%; }
+    width: 100%; 
+}
     
-
 .tags span {
   background-color: #e9c46a;
   padding: 0.25rem 0.5rem;
@@ -192,7 +187,6 @@ button:hover {
   overflow-y: auto;
   width: 60%; 
   border: 2px solid #767847;
-
 }
 
 .analysis-report pre {
@@ -212,7 +206,6 @@ button:hover {
     cursor: pointer;
     font-size: 0.9rem;
     width: 50%;
-  
 }
 
 .pdf-button:hover {

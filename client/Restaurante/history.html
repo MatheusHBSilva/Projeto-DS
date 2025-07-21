@@ -5,28 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Histórico de Relatórios</title>
   <link rel="icon" type="image/x-icon" href="/images/Logo AvalIA.png">
-  <link rel="stylesheet" href="/CSS/styles.css">
+  <link rel="stylesheet" href="/CSS/history.css">
   <script src="/Restaurante/history.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <button class="back-button">←</button>
-    <div class="logo">Aval<span>IA</span></div>
-
-    <div class="restaurant-card">
-      <div class="restaurant-icon">🍽️</div>
-      <div class="restaurant-info">
-        <h2 id="restaurantName">Carregando...</h2>
-      </div>
+  <div class="screen">
+    <button class="back-button">Voltar</button> 
+    <img class="logo" src="/images/logo.png" alt="logo"/>
+    <div class="container">
+      <div class="header-section">
+        <span class="name" id="restaurantName">Carregando...</span>
     </div>
-
-    <div class="tags" id="restaurantTags">
-    </div>
-
+    <div class="tags" id="restaurantTags"></div>
     <h3>Histórico de relatórios:</h3>
     <div id="reportList"></div>
-
     <div id="message" class="message"></div>
+    </div>
   </div>
 </body>
 </html>

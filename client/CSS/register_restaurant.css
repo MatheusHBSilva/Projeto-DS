@@ -33,8 +33,8 @@ body, html {
   width: 100%;
   max-width: 400px;
   margin-right: 20%;
-
 }
+
 .register-container h1 {
   font-size: 1em;
 }
@@ -42,6 +42,7 @@ body, html {
 .logo {
   margin-bottom: -8%;
 }
+
 .form-group {
   margin-bottom: 1rem;
   text-align: left;
@@ -115,4 +116,4 @@ button:hover {
         padding-bottom: 3rem;
         padding-top: 2.5rem;
     }
-  }
+}
