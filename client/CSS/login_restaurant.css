@@ -1,27 +1,58 @@
-.logo {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #5b7461;
-  margin-bottom: 1rem;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    background-image: url('/images/fundo_restaurante.jpg');
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    background-attachment: fixed; 
 }
 
-.logo span {
-  color: #f28c38;
+.container{
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end; 
+    text-align: left; 
+    color: #7c8046;; 
+    box-sizing: border-box;
+    min-height: 100vh;
 }
 
 .login-container {
-  background-color: #f5a676;
-  padding: 2rem;
+  background-color: #f9fadc;
+  padding:2rem;
+  padding-bottom: 5rem;
+  padding-top: 4rem;
   border-radius: 10px;
   text-align: center;
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
+  margin-right: 20%;
+  margin-left: 20%;
 }
 
-.login-container h2 {
-  color: #5b7461;
-  margin-bottom: 1rem;
+.login-container h1 {
+  font-size: 1em;
+  margin-top: -8%;
+}
+
+.logo {
+  margin-bottom: 0%;
+}
+
+.welcome {
+  color: #7c8046;
+  margin-bottom: 1%;
+}
+
+.sentence {
+  font-size: 0.9em;
+  color: #3d3d3d;
 }
 
 .form-group {
@@ -31,7 +62,7 @@
 
 .form-group label {
   display: block;
-  color: #333;
+  color: #3d3d3d;
 }
 
 .form-group input {
@@ -45,7 +76,7 @@
 button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #5b7461;
+  background-color: #7c8046;
   border: none;
   border-radius: 5px;
   color: white;
@@ -58,7 +89,25 @@ button:hover {
 }
 
 .links a {
-  color: #333;
+  color: #3d3d3d;
   text-decoration: underline;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container {
+        align-items: center;
+        min-height: auto; 
+        justify-content: flex-start; 
+        padding-top: 20px; 
+        padding-bottom: 20px;
+    }
+    .login-container {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 95%;
+        padding: 1.5rem;
+        padding-bottom: 3rem;
+        padding-top: 2.5rem;
+    }
 }
