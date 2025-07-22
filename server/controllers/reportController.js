@@ -1,4 +1,4 @@
-const { getReportModel, downloadReportModel } = require('../models/reportsModel');
+const { getReportModel, downloadReportModel } = require('../models/reportsModels');
 const PDFDocument = require('pdfkit');
 
 exports.getReportHistory = async (req, res) => {

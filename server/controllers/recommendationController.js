@@ -1,4 +1,4 @@
-const { selectReviews } = require('../models/reviewsModel');
+const { selectReviews } = require('../models/reviewsModels');
 const { selectRestaurantTags } = require('../models/restaurantModels');
 const { selectClientTags } = require('../models/clientModels');
 const { GoogleGenerativeAI } = require('@google/generative-ai');

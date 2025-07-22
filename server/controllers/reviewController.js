@@ -1,5 +1,5 @@
 // controllers/reviewController.js
-const { selectReviews, insertReview } = require('../models/reviewsModel');
+const { selectReviews, insertReview } = require('../models/reviewsModels');
 
 exports.getReviews = async (req, res) => {
   const { restaurantId, limit } = req.query;

@@ -35,7 +35,7 @@ async function loadRestaurants() {
     // Carregar favoritos do cliente
     const favoritesResponse = await fetch('/api/favorites', { credentials: 'include' });
     const favoritesData = await favoritesResponse.json();
-    const favorites = new Set(favoritesData.favorites.map(f => f.restaurant_id));
+    const favorites = new Set(favoritesData.favorites);
 
     let url = '/api/restaurants';
     if (currentMode === 'favorites') {

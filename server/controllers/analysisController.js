@@ -1,6 +1,6 @@
 // controllers/analysisController.js
-const { selectReviews } = require('../models/reviewsModel');
-const { insertReport } = require('../models/reportsModel');
+const { selectReviews } = require('../models/reviewsModels');
+const { insertReport } = require('../models/reportsModels');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const PDFDocument = require('pdfkit');
 
