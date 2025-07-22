@@ -20,6 +20,17 @@ exports.registerClient = async (req, res) => {
         .json({ error: 'Este email ou CPF já está registrado.' });
     }
 
+    // Verifica se o cliente digitou o número mínimo de tags
+    const tagsArray = tags
+      ? tags.split(',').map(tag => tag.trim())
+      : [];
+
+    if (tagsArray.length < 2) {
+      return res
+        .status(400)
+        .json({ error: 'É necessário informar no mínimo 2 tags.'});
+    }
+
     // Hash da senha e inserção no BD
     const hashedPassword = await bcrypt.hash(senha, 10);
     await new Promise((resolve, reject) => {
