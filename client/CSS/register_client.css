@@ -78,6 +78,24 @@ button:hover {
   background-color: #4a5f50;
 }
 
+.back-button {
+  background-color: #7c8046;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
 .back-link {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -106,13 +124,13 @@ button:hover {
         align-items: center;
         min-height: auto; 
         justify-content: flex-start; 
-        padding-top: 20px; 
+        padding-top: 60px; 
         padding-bottom: 20px;
     }
     .register-container {
         margin-left: 0;
         margin-right: 0;
-        max-width: 90%;
+        max-width: 85%;
         padding: 1.5rem;
         padding-bottom: 3rem;
         padding-top: 2.5rem;
