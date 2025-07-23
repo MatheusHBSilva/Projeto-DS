@@ -6,23 +6,25 @@ const db = new sqlite3.Database(path.resolve(__dirname, '../../database.db'), er
   else     console.log('Conectado ao SQLite com sucesso');
 });
 
-// Função para criar tabelas (executar apenas uma vez ou a cada start)
+// Função para criar tabelas
 function initTables() {
   db.serialize(() => {
+    // A correção foi feita aqui. As colunas foram adicionadas diretamente na criação da tabela.
     db.run(`
       CREATE TABLE IF NOT EXISTS restaurants (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         restaurant_name TEXT NOT NULL,
         cnpj TEXT NOT NULL,
+        endereco TEXT,
+        telefone TEXT,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
         tags TEXT,
         created_at TEXT NOT NULL
       )
     `);
-
-    db.run('ALTER TABLE restaurants ADD COLUMN endereco TEXT');
-    db.run('ALTER TABLE restaurants ADD COLUMN telefone TEXT');
+    
+    // As linhas "ALTER TABLE" que causavam o erro foram removidas.
 
     db.run(`
       CREATE TABLE IF NOT EXISTS clients (
