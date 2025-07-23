@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchRestaurantDetails() {
   const restaurantNameSpan = document.getElementById('restaurantName');
+  const restaurantEmailSpan = document.getElementById('email');
+  const restaurantPhoneSpan = document.getElementById('telefone');
   const averageRatingSpan = document.getElementById('averageRating');
   const ratingStarsDiv = document.getElementById('ratingStars');
   const reviewCountSpan = document.getElementById('reviewCount');
@@ -33,6 +35,8 @@ async function fetchRestaurantDetails() {
     }
 
     restaurantNameSpan.textContent = meData.restaurantName;
+    restaurantEmailSpan.textContent = meData.restaurantEmail;
+    restaurantPhoneSpan.textContent = meData.restaurantPhone;
     meData.tags.forEach(tag => {
       const span = document.createElement('span');
       span.textContent = tag;

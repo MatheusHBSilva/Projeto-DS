@@ -61,7 +61,7 @@ exports.getCurrentRestaurant = (req, res) => {
   const restaurantId = req.cookies.restaurantId;
 
   db.get(
-    'SELECT id, restaurant_name, tags FROM restaurants WHERE id = ?',
+    'SELECT id, restaurant_name, email, telefone, tags FROM restaurants WHERE id = ?',
     [restaurantId],
     (err, row) => {
       if (err) {
@@ -74,6 +74,8 @@ exports.getCurrentRestaurant = (req, res) => {
       res.json({
         restaurantId:   row.id,
         restaurantName: row.restaurant_name,
+        restaurantEmail: row.email,
+        restaurantPhone: row.telefone,
         tags:           row.tags
                            ? row.tags.split(',').map(tag => tag.trim())
                            : []
