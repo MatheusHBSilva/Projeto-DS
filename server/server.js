@@ -18,6 +18,7 @@ const reviewRoutes     = require('./routes/reviewRoutes');
 const analysisRoutes   = require('./routes/analysisRoutes');
 const recommendationRoutes = require('./routes/recommendationRoutes');
 const reportRoutes       = require('./routes/reportRoutes');
+const discoveryRoutes = require('./routes/discoveryRoutes');
 
 const app = express();
 const port = 3000;
@@ -41,6 +42,7 @@ app.use('/api', reviewRoutes);
 app.use('/api', analysisRoutes);
 app.use('/api', recommendationRoutes);
 app.use('/api', reportRoutes);
+app.use('/api/discovery', discoveryRoutes);
 
 
 // Iniciar servidor

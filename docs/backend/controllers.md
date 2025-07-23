@@ -100,3 +100,17 @@ Responsável por geração, histórico e download de relatórios analíticos.
   5. Se `format==='pdf'`, gera e envia relatório PDF; caso contrário, retorna `{ analysis }` em JSON.
 
 ---
+
+## 9. discoveryController.js
+
+Responsável por gerar o feed de descoberta de restaurantes para o dashboard do cliente, com base na compatibilidade de interesses (tags).
+
+- **getDiscoveryFeed(req, res):**
+
+  1. Verifica a identidade do cliente via cookie (`req.cookies.clientId`).
+  2. Busca as tags do cliente autenticado.
+  3. Busca todos os restaurantes e suas respectivas tags.
+  4. Filtra a lista, retornando apenas os restaurantes que possuem 2 ou mais tags em comum com o cliente.
+  5. Rota `GET /api/discovery` retorna um array de objetos de restaurante para o dashboard.
+
+---

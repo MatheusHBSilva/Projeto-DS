@@ -188,6 +188,17 @@ h2 {
   background-color: #7c8046;
 }
 
+.no-results {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #7c8046;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
 .restaurant-info {
   display: flex;
   flex-direction: row;
