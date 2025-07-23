@@ -1,68 +1,87 @@
-body {
-  background-color: #f5f2e9;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    background-image: url('/images/fundo_login.jpg');
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    background-attachment: fixed;  
+}
+
+.screen{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 0px;
+    padding-bottom: 2rem;
 }
 
 .container {
-  max-width: 400px;
-  margin: 0 auto;
+  background-color: #f9fadc;
+  border-radius: 10px;
+  border: 2px solid #7c8046;
   padding: 1rem;
+  width: 35%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+  min-width: 400px;
 }
+    
 
 .back-button {
-  background-color: #8a9a5b;
+  background-color: #7c8046;
   border: none;
   color: white;
   padding: 0.5rem;
-  border-radius: 0;
+  border-radius: 5px;
   cursor: pointer;
   margin-bottom: 1rem;
-  width: 2rem;
-  height: 2rem;
+  width: auto;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.logo {
-  text-align: center;
-  font-size: 2rem;
-  color: #5b7461;
-  margin-bottom: 1rem;
-}
-
-.logo span {
-  color: #f28c38;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
 }
 
 .restaurant-card {
-  background-color: #f4a261;
   border-radius: 10px;
-  padding: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  flex-direction: column;
 }
 
-.restaurant-icon img {
-  width: 50px;
-  height: 50px;
-  margin-right: 1rem;
+.restaurant-info{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .restaurant-info h2 {
-  color: #8a4f2a;
-  margin: 0;
+  color: black;
+  font-size:xx-large;
 }
 
 .restaurant-info p {
-  color: #5b7461;
-  margin: 0.5rem 0;
+  color: black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
 .tags {
+  align-items: center; 
+  justify-content: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -77,21 +96,28 @@ body {
 }
 
 .buttons button {
+  align-items: center; 
+  justify-content: center;
   width: 100%;
   padding: 0.75rem;
-  margin-bottom: 1rem;
+  background-color: #7c8046;
   border: none;
   border-radius: 5px;
   color: white;
+  font-size: 1.1rem;
   cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s;
+  box-sizing: border-box;
+  outline: none;
 }
 
 #general-review-btn {
-  background-color: #6b705c;
+  background-color: #7c8046;
 }
 
 #rate-restaurant-btn {
-  background-color: #6b705c;
+  background-color: #7c8046;
 }
 
 .spinner {
