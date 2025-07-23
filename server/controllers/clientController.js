@@ -25,7 +25,7 @@ exports.registerClient = async (req, res) => {
       ? tags.split(',').map(tag => tag.trim())
       : [];
 
-    if (tagsArray.length < 2) {
+    if (tagsArray.length < 5) {
       return res
         .status(400)
         .json({ error: 'É necessário informar no mínimo 2 tags.'});
