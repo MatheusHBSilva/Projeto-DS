@@ -6,6 +6,25 @@ const db = new sqlite3.Database(path.resolve(__dirname, '../../database.db'), er
   else     console.log('Conectado ao SQLite com sucesso');
 });
 
+function addColumnIfNotExists(tableName, columnName, columnType) {
+  db.get(
+    `PRAGMA table_info(${tableName})`,
+    (err, row) => {
+      if (err) {
+        console.error(`Erro ao verificar colunas da tabela ${tableName}:`, err.message);
+      } else {
+        db.all(`PRAGMA table_info(${tableName})`, (err, columns) => {
+          const columnExists = columns.some(col => col.name === columnName);
+          if (!columnExists) {
+            db.run(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${columnType}`);
+            console.log(`Coluna ${columnName} adicionada à tabela ${tableName}`);
+          }
+        });
+      }
+    }
+  );
+}
+
 // Função para criar tabelas (executar apenas uma vez ou a cada start)
 function initTables() {
   db.serialize(() => {
@@ -21,8 +40,8 @@ function initTables() {
       )
     `);
 
-    db.run('ALTER TABLE restaurants ADD COLUMN endereco TEXT');
-    db.run('ALTER TABLE restaurants ADD COLUMN telefone TEXT');
+    addColumnIfNotExists('restaurants', 'endereco', 'TEXT');
+    addColumnIfNotExists('restaurants', 'telefone', 'TEXT');
 
     db.run(`
       CREATE TABLE IF NOT EXISTS clients (
