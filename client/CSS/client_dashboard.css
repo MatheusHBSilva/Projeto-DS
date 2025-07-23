@@ -71,7 +71,7 @@ body {
 
 .welcome-text {
   font-size: 1rem;
-  color: #6A7553;
+  color: #7c8046;
   margin-bottom: 0.75rem;
   font-weight: bold;
 }
@@ -83,7 +83,7 @@ body {
 .dropdown button {
   width: 100%;
   padding: 0.5rem;
-  background-color: #6A7553;
+  background-color: #7c8046;
   border: none;
   border-radius: 5px;
   color: white;
@@ -98,7 +98,7 @@ body {
 }
 
 .dropdown button:hover {
-  background-color: #3c422f;
+  background-color: #7c8046;
 }
 
 /*h2 {
@@ -154,7 +154,7 @@ h2 {
   display: block;
   width: 100px;
   padding: 0.5rem;
-  background-color: #3c422f;
+  background-color: #7c8046;
   border: none;
   border-radius: 5px;
   color: white;
@@ -165,7 +165,7 @@ h2 {
 }
 
 .back-button:hover {
-  background-color: #282c20;
+  background-color: #7c8046;
 }
 
 .restaurant-list {
@@ -175,7 +175,7 @@ h2 {
 }
 
 .restaurant-card {
-  background-color: #6A7553;
+  background-color: #7c8046;
   padding: 1rem;
   border-radius: 10px;
   display: flex;
@@ -185,7 +185,7 @@ h2 {
 }
 
 .restaurant-card:hover {
-  background-color: #3c422f;
+  background-color: #7c8046;
 }
 
 .restaurant-info {
