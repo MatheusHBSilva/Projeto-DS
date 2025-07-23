@@ -43,12 +43,7 @@ async function loadRestaurants() {
     } else if (currentMode === 'search' && currentSearchQuery) {
       url = `/api/restaurants?search=${encodeURIComponent(currentSearchQuery)}`;
     } else {
-      // ==========================================================
-      // ✅ MUDANÇA PRINCIPAL AQUI
-      // Em vez de buscar restaurantes aleatórios, chamamos a nova
-      // rota que retorna os restaurantes recomendados por tags.
       url = '/api/discovery';
-      // ==========================================================
     }
 
     const response = await fetch(url, { credentials: 'include' });
