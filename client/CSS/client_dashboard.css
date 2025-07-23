@@ -1,8 +1,14 @@
 body {
-  background-color: #f5f2e9;
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
+    padding: 0;
+    height: 100%; 
+    font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    background-image: url('../images/fundo_login.jpg');
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    background-attachment: fixed;
 }
 
 .container {
@@ -19,17 +25,18 @@ body {
 }
 
 .logo {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #5b7461;
+  display: flex;
+  align-items: center;
 }
 
-.logo span {
-  color: #f28c38;
+.logo img {
+  height: 80px;
+  width: auto;
 }
 
 .user-info {
   position: relative;
+  margin-left: auto;
 }
 
 .profile-pic {
@@ -64,19 +71,19 @@ body {
 
 .welcome-text {
   font-size: 1rem;
-  color: #5b7461;
+  color: #6A7553;
   margin-bottom: 0.75rem;
   font-weight: bold;
 }
 
 .welcome-text span {
-  color: #f28c38;
+  color: #3c422f;
 }
 
 .dropdown button {
   width: 100%;
   padding: 0.5rem;
-  background-color: #5b7461;
+  background-color: #6A7553;
   border: none;
   border-radius: 5px;
   color: white;
@@ -91,11 +98,16 @@ body {
 }
 
 .dropdown button:hover {
-  background-color: #4a5f50;
+  background-color: #3c422f;
 }
 
-h2 {
+/*h2 {
   color: #5b7461;
+  text-align: center;
+  margin-bottom: 1rem;
+}*/
+h2 {
+  color: transparent;
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -132,7 +144,7 @@ h2 {
 
 .favorites-title {
   font-size: 1.5rem;
-  color: #5b7461;
+  color: #6A7553;
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: center;
@@ -142,7 +154,7 @@ h2 {
   display: block;
   width: 100px;
   padding: 0.5rem;
-  background-color: #f28c38;
+  background-color: #3c422f;
   border: none;
   border-radius: 5px;
   color: white;
@@ -153,7 +165,7 @@ h2 {
 }
 
 .back-button:hover {
-  background-color: #e07b1f;
+  background-color: #282c20;
 }
 
 .restaurant-list {
@@ -163,7 +175,7 @@ h2 {
 }
 
 .restaurant-card {
-  background-color: #f5a676;
+  background-color: #6A7553;
   padding: 1rem;
   border-radius: 10px;
   display: flex;
@@ -173,36 +185,65 @@ h2 {
 }
 
 .restaurant-card:hover {
-  background-color: #e49666;
+  background-color: #3c422f;
 }
 
 .restaurant-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
 }
 
 .restaurant-name {
-  color: #5b7461;
+  color: #ffffff;
   font-size: 1.2rem;
   font-weight: bold;
 }
 
 .restaurant-rating {
-  color: #333;
-  font-size: 0.9rem;
+  color: #ffffff;
+  font-size: 0.8rem;
+  margin-left: auto;
+  margin-right: 1rem;
+  white-space: nowrap;
 }
 
 .heart-icon {
-  font-size: 1.5rem;
+  font-size: 2rem;
   cursor: pointer;
 }
 
 .heart-icon.favorite::after {
-  content: '❤️';
-  color: #ff4d4d;
+  content: '♥';
+  color: #ffffff;
 }
 
 .heart-icon:not(.favorite)::after {
-  content: '🖤';
-  color: #ccc;
+  content: '♡';
+  color: #ffffff;
+}
+
+/* Media Queries para dispositivos móveis e tablets */
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .logo img {
+    height: 60px;
+  }
+  
+  .container {
+    padding: 1rem;
+  }
+  
+  .back-button {
+    margin-top: 6rem;
+  }
+  
+  .favorites-title {
+    margin-bottom: 0.5rem;
+  }
 }
