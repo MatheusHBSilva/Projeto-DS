@@ -94,3 +94,13 @@ Cada arquivo em `server/routes/` define um conjunto de endpoints REST que encami
     1. `idBodyRestaurant` (verifica `restaurantId`)  
     2. `validateGetClient` (verifica cliente autenticado)  
   - Controller: `recommendationController.clientRecommendation`
+
+---
+
+## discoveryRoutes.js
+- **GET /api/discovery**
+  - Retorna uma lista de restaurantes para o dashboard do cliente, com base em um mínimo de 2 tags em comum.
+  - Lógica de Autenticação: A validação do cliente logado é feita diretamente no controller, via `req.cookies.clientId`.
+  - Controller: `discoveryController.getDiscoveryFeed`
+
+---
