@@ -30,15 +30,17 @@ function selectEmailRestaurant( email ) {
     });
 };
 
-function insertRestaurant( restaurantName, cnpj, email, hashedPassword, tags ) {
+function insertRestaurant( restaurantName, cnpj, endereco, telefone, email, hashedPassword, tags ) {
   return new Promise((resolve, reject) => {
       db.run(
         `INSERT INTO restaurants 
-          (restaurant_name, cnpj, email, password, tags, created_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
+          (restaurant_name, cnpj, endereco, telefone, email, password, tags, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           restaurantName,
           cnpj,
+          endereco,
+          telefone,
           email,
           hashedPassword,
           tags || '',
