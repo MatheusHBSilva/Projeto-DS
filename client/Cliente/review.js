@@ -18,8 +18,8 @@ async function loadRestaurantDetails() {
 
     const restaurant = data.restaurants[0];
     document.getElementById('restaurant-name').textContent = restaurant.restaurant_name;
-    document.getElementById('telefone').textContent = restaurant.telefone;
-    document.getElementById('endereco').textContent = restaurant.endereco;
+    document.getElementById('telefone').textContent = "Telefone: " +  restaurant.telefone;
+    document.getElementById('endereco').textContent = "Endereço: " + restaurant.endereco;
     document.getElementById('restaurant-rating').textContent = `Média: ${restaurant.average_rating} (${restaurant.review_count} avaliações)`;
 
     const tagsResponse = await fetch(`/api/restaurant-tags?id=${restaurantId}`, { credentials: 'include' });
