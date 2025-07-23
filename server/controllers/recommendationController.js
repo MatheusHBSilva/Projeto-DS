@@ -21,7 +21,7 @@ exports.clientRecommendation = async (req, res) => {
       );
     });
 
-    // 2. Tags do restaurante e do cliente
+    // 2. Tags do restaurante e do cliente (código sem alterações)
     const restaurant = await new Promise((resolve, reject) => {
       db.get(
         'SELECT tags FROM restaurants WHERE id = ?',
@@ -45,28 +45,41 @@ exports.clientRecommendation = async (req, res) => {
       : [];
 
     // 3. Montar prompt
+    // Nomes dos avaliadores foram removidos para garantir o anonimato
     const reviewTexts = reviews
-      .map(
-        r =>
-          `${r.reviewer_name} (${r.rating} estrelas): "${
-            r.review_text || 'Sem comentário'
-          }"`
-      )
+      .map(r => `- Nota ${r.rating}/5: "${r.review_text || 'Sem comentário.'}"`)
       .join('\n');
-
+    
     const prompt = `
-Analise as seguintes avaliações de um restaurante, incluindo texto e nota (1–5), junto com as tags do restaurante (${restaurantTags.join(
-      ', '
-    )}) e do cliente (${clientTags.join(
-      ', '
-    )}). Forneça:
-1. Recomendação (sim/não) e justificativa.
-2. Resumo de pontos fortes e fracos.
-3. Até 5 linhas no total.
-4. Se não houver avaliações, responda apenas "Restaurante não avaliado".
-Seguem as avaliações:
-${reviewTexts}
-    `;
+# INSTRUÇÕES PARA O ASSISTENTE DE IA
+
+## FUNÇÃO
+Você é um assistente de análise de dados. Sua tarefa é sintetizar as informações fornecidas e gerar um resumo em primeira pessoa para me ajudar a decidir se devo visitar este restaurante. A análise deve ser totalmente impessoal e anônima, sem mencionar nomes de outros usuários. O tom deve ser o de uma conclusão lógica e factual, sem usar verbos de preferência pessoal (como "adoro", "aprecio", "odeio").
+
+## CONTEXTO
+* **Meus Interesses:** ${clientTags.join(', ') || 'Nenhum informado'}
+* **Especialidades do Restaurante:** ${restaurantTags.join(', ') || 'Nenhuma informada'}
+* **Avaliações Anônimas:**
+${reviewTexts || 'Nenhuma avaliação disponível.'}
+
+## TAREFA E CRITÉRIOS
+Com base no CONTEXTO, gere um resumo que me ajude a tomar uma decisão. Siga estes critérios:
+1.  **Compatibilidade de Interesses:** A correspondência entre "Meus Interesses" e as "Especialidades do Restaurante" é o fator principal.
+2.  **Análise das Avaliações:** Avalie o sentimento geral das avaliações.
+3.  **Balanço:** Se a compatibilidade de interesses for alta, pontos de atenção menores podem ser relevados. Se a compatibilidade for baixa, as avaliações precisam ser excelentes.
+4.  **Identificação de Alertas Críticos:** Problemas relacionados à **ambiente, limpeza, segurança alimentar ou tratamento desrespeitoso** devem ser tratados como de alta prioridade e destacados negativamente na sua análise, independentemente da compatibilidade de interesses.
+
+## FORMATO DA RESPOSTA
+Sua resposta deve seguir estritamente este formato Markdown, sem nenhuma introdução ou texto adicional e seja sempre impessoal:
+
+Compatibilidade: (Responda com apenas uma das três opções: Compatível, Não Compatível, ou Parcialmente Compatível, finalizando a frase com um ponto final seguido de um espaço.)
+Análise: (Uma frase objetiva e factual. Ex: "A compatibilidade de interesses é alta, mas os pontos de atenção sobre o serviço exigem cautela, finalizando a frase com um ponto final seguido de um espaço.")
+Pontos Positivos: (Liste 1 ou 2 pontos fortes em formato de lista. Ex: "- Ambiente e decoração", finalizando a frase com um ponto final seguido de um espaço.)
+Pontos Negativos: (Liste 1 ou 2 pontos fracos em formato de lista. Ex: "- Serviço pode ser lento", finalizando a frase com um ponto final seguido de um espaço.)
+
+## REGRA ESPECIAL
+Se a seção "Avaliações Anônimas" estiver vazia, sua única resposta deve ser: **Este restaurante ainda não possui avaliações. Não é possível gerar uma análise detalhada.**
+`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -82,7 +95,7 @@ ${reviewTexts}
     const result = await model.generateContent(prompt);
     const analysis = await result.response.text();
 
-    // 4. Gerar PDF ou JSON
+    // 4. Gerar PDF ou JSON (código sem alterações)
     if (format === 'pdf') {
       const doc = new PDFDocument({ margin: 50 });
       const buffers = [];
@@ -97,7 +110,7 @@ ${reviewTexts}
         res.send(pdfData);
       });
 
-      doc.fontSize(16).text('Recomendação Personalizada', {
+      doc.fontSize(16).text('Análise Pessoal de Compatibilidade', {
         align: 'center',
       });
       doc.moveDown();
