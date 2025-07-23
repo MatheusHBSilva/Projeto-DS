@@ -37,19 +37,35 @@ async function loadRestaurants() {
     const favoritesData = await favoritesResponse.json();
     const favorites = new Set(favoritesData.favorites);
 
-    let url = '/api/restaurants';
+    let url = '';
     if (currentMode === 'favorites') {
       url = '/api/favorites/restaurants';
     } else if (currentMode === 'search' && currentSearchQuery) {
       url = `/api/restaurants?search=${encodeURIComponent(currentSearchQuery)}`;
     } else {
-      url = '/api/restaurants?limit=5&random=true';
+      // ==========================================================
+      // ✅ MUDANÇA PRINCIPAL AQUI
+      // Em vez de buscar restaurantes aleatórios, chamamos a nova
+      // rota que retorna os restaurantes recomendados por tags.
+      url = '/api/discovery';
+      // ==========================================================
     }
 
     const response = await fetch(url, { credentials: 'include' });
     const data = await response.json();
     if (!response.ok) {
+      // Adiciona uma verificação para o caso de não haver restaurantes recomendados
+      if (data.restaurants && data.restaurants.length === 0) {
+        restaurantList.innerHTML = '<p class="no-results">Nenhum restaurante encontrado com base nos seus interesses. Explore e avalie mais para receber recomendações!</p>';
+        return;
+      }
       throw new Error(data.error || 'Erro ao carregar restaurantes.');
+    }
+
+    // Se a resposta for um array vazio, exibe uma mensagem
+    if (data.restaurants.length === 0) {
+      restaurantList.innerHTML = '<p class="no-results">Nenhum restaurante encontrado. Tente buscar por um nome ou explore os favoritos.</p>';
+      return;
     }
 
     data.restaurants.forEach(restaurant => {
@@ -58,7 +74,7 @@ async function loadRestaurants() {
       restaurantCard.innerHTML = `
         <div class="restaurant-info">
           <div class="restaurant-name">${restaurant.restaurant_name}</div>
-          <div class="restaurant-rating">⭐ ${restaurant.average_rating} (${restaurant.review_count} avaliações)</div>
+          <div class="restaurant-rating">⭐ ${parseFloat(restaurant.average_rating).toFixed(1)} (${restaurant.review_count} avaliações)</div>
         </div>
         <span class="heart-icon ${favorites.has(restaurant.id) ? 'favorite' : ''}" data-id="${restaurant.id}"></span>
       `;
@@ -66,7 +82,7 @@ async function loadRestaurants() {
       // Adicionar evento de clique para redirecionar ao clicar no card
       restaurantCard.addEventListener('click', (e) => {
         if (e.target.classList.contains('heart-icon')) return;
-        window.location.href = ` /Cliente/review.html?id=${restaurant.id}`;
+        window.location.href = `/Cliente/review.html?id=${restaurant.id}`;
       });
 
       // Adicionar evento de clique no coração
@@ -104,7 +120,10 @@ async function loadRestaurants() {
     });
   } catch (error) {
     console.error('Erro ao carregar restaurantes:', error);
-    alert('Erro ao carregar restaurantes.');
+    // Evita alertar o usuário se for apenas uma lista vazia
+    if (!error.message.includes("Unexpected token '<'")) {
+        alert('Erro ao carregar restaurantes.');
+    }
   }
 }
 
@@ -163,7 +182,7 @@ async function searchRestaurants() {
 document.addEventListener('click', (e) => {
   const dropdown = document.getElementById('dropdown');
   const profilePic = document.querySelector('.profile-pic');
-  if (!profilePic.contains(e.target)) {
+  if (profilePic && !profilePic.contains(e.target) && dropdown.classList.contains('show')) {
     dropdown.classList.remove('show');
   }
 });
