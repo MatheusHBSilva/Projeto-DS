@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const { db } = require('../models/db');
 
 exports.registerRestaurant = async (req, res) => {
-  const { restaurantName, cnpj, email, password, tags } = req.body;
+  const { restaurantName, cnpj, endereco, telefone, email, password, tags } = req.body;
 
   try {
     // Verifica email existente
@@ -34,11 +34,13 @@ exports.registerRestaurant = async (req, res) => {
     await new Promise((resolve, reject) => {
       db.run(
         `INSERT INTO restaurants 
-          (restaurant_name, cnpj, email, password, tags, created_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
+          (restaurant_name, cnpj, endereco, telefone, email, password, tags, created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           restaurantName,
           cnpj,
+          endereco,
+          telefone,
           email,
           hashedPassword,
           tags || '',

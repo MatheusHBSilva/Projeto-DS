@@ -21,6 +21,9 @@ function initTables() {
       )
     `);
 
+    db.run('ALTER TABLE restaurants ADD COLUMN endereco TEXT');
+    db.run('ALTER TABLE restaurants ADD COLUMN telefone TEXT');
+
     db.run(`
       CREATE TABLE IF NOT EXISTS clients (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
