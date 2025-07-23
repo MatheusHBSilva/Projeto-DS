@@ -6,23 +6,24 @@ const db = new sqlite3.Database(path.resolve(__dirname, '../../database.db'), er
   else     console.log('Conectado ao SQLite com sucesso');
 });
 
+// Verificação antes de adicionar as colunas de endereço e telefone para a tabela do restaurante
 function addColumnIfNotExists(tableName, columnName, columnType) {
-  db.get(
-    `PRAGMA table_info(${tableName})`,
-    (err, row) => {
-      if (err) {
-        console.error(`Erro ao verificar colunas da tabela ${tableName}:`, err.message);
-      } else {
-        db.all(`PRAGMA table_info(${tableName})`, (err, columns) => {
-          const columnExists = columns.some(col => col.name === columnName);
-          if (!columnExists) {
-            db.run(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${columnType}`);
+  db.all(`PRAGMA table_info(${tableName})`, (err, columns) => {
+    if (err) {
+      console.error(`Erro ao verificar colunas da tabela ${tableName}:`, err.message);
+    } else {
+      const columnExists = columns.some(col => col.name === columnName);
+      if (!columnExists) {
+        db.run(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${columnType}`, err => {
+          if (err) {
+            console.error(`Erro ao adicionar coluna ${columnName}:`, err.message);
+          } else {
             console.log(`Coluna ${columnName} adicionada à tabela ${tableName}`);
           }
         });
       }
     }
-  );
+  });
 }
 
 // Função para criar tabelas (executar apenas uma vez ou a cada start)
@@ -91,6 +92,16 @@ function initTables() {
       )
     `);
   });
+
+db.all('PRAGMA table_info(restaurants)', (err, rows) => {
+  if (err) {
+    console.error('Erro ao verificar colunas:', err.message);
+  } else {
+    console.log('Colunas atuais da tabela restaurants:');
+    rows.forEach(col => console.log(`- ${col.name} (${col.type})`));
+  }
+});
+
 }
 
 module.exports = { db, initTables };
