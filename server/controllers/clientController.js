@@ -28,7 +28,7 @@ exports.registerClient = async (req, res) => {
     if (tagsArray.length < 5) {
       return res
         .status(400)
-        .json({ error: 'É necessário informar no mínimo 2 tags.'});
+        .json({ error: 'É necessário informar no mínimo 5 tags.'});
     }
 
     // Hash da senha e inserção no BD
