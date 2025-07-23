@@ -1,6 +1,8 @@
 async function register() {
   const restaurantName = document.getElementById('restaurantName').value;
   const cnpj = document.getElementById('cnpj').value;
+  const endereco = document.getElementById('endereco').value;
+  const telefone = document.getElementById('telefone').value;
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
   const tags = document.getElementById('tags').value;
@@ -8,7 +10,7 @@ async function register() {
 
   message.style.display = 'none';
 
-  if (!restaurantName || !cnpj || !email || !password) {
+  if (!restaurantName || !cnpj || !email || !password || !endereco || !telefone) {
     message.textContent = 'Por favor, preencha todos os campos obrigatórios.';
     message.classList.add('error');
     message.style.display = 'block';
@@ -19,7 +21,7 @@ async function register() {
     const response = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ restaurantName, cnpj, email, password, tags })
+      body: JSON.stringify({ restaurantName, cnpj, email, endereco, telefone, password, tags })
     });
 
     const data = await response.json();
@@ -39,6 +41,8 @@ async function register() {
     // Limpar formulário
     document.getElementById('restaurantName').value = '';
     document.getElementById('cnpj').value = '';
+    document.getElementById('endereco').value = '';
+    document.getElementById('telefone').value = '';
     document.getElementById('email').value = '';
     document.getElementById('password').value = '';
     document.getElementById('tags').value = '';
