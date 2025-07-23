@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const{ selectEmailRestaurant, insertRestaurant, getCurrentRestaurantModel, getRestaurantsModel, selectRestaurantTags } = require('../models/restaurantModels');
 
 exports.registerRestaurant = async (req, res) => {
-  const { restaurantName, cnpj, email, password, tags } = req.body;
+  const { restaurantName, cnpj, endereco, telefone, email, password, tags } = req.body;
 
   try {
     // Verifica email existente
@@ -12,9 +12,21 @@ exports.registerRestaurant = async (req, res) => {
       return res.status(400).json({ error: 'Este email já está registrado.' });
     }
 
+    // Verifica se o restaurante digitou o número mínimo de tags
+    const tagsArray = tags
+      ? tags.split(',').map(tag => tag.trim())
+      : [];
+
+    if (tagsArray.length < 2) {
+      return res
+        .status(400)
+        .json({ error: 'É necessário informar no mínimo 2 tags.'});
+    }
+    
     // Cria hash da senha e insere no BD
     const hashedPassword = await bcrypt.hash(password, 10);
-    await insertRestaurant( restaurantName, cnpj, email, hashedPassword, tags );
+
+    await insertRestaurant( restaurantName, cnpj, endereco, telefone, email, hashedPassword, tags );
 
     res.status(201).json({ message: 'Registro salvo com sucesso!' });
   } catch (error) {

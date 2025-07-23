@@ -62,9 +62,9 @@ function validateSubmitReview(req, res, next) {
 }
 
 function validateRegisterRestaurant(req, res, next) {
-    const { restaurantName, cnpj, email, password } = req.body;
+    const { restaurantName, cnpj, endereco, telefone, email, password } = req.body;
 
-    if (!restaurantName || !cnpj || !email || !password) {
+    if (!restaurantName || !cnpj || !email || !password || !endereco || !telefone) {
         return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
     }
 
