@@ -52,7 +52,8 @@ project/
 │  │  ├─ reportRoutes.js
 │  │  ├─ restaurantRoutes.js
 │  │  ├─ reviewRoutes.js
-│  │  └─ reportRoutes.js
+│  │  ├─ reportRoutes.js
+│  │  └─ discoveryRoutes.js
 │  ├─ controllers/
 │  │  ├─ analysisController.js
 │  │  ├─ authController.js
@@ -62,7 +63,8 @@ project/
 │  │  ├─ reportController.js
 │  │  ├─ restaurantController.js
 │  │  ├─ reviewController.js
-│  │  └─ reportController.js
+│  │  ├─ reportController.js
+│  │  └─ discoveryController.js
 │  ├─ models/
 │  │  └─ db.js
 │  └─ server.js
