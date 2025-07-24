@@ -23,10 +23,10 @@ exports.registerRestaurant = async (req, res) => {
       ? tags.split(',').map(tag => tag.trim())
       : [];
 
-    if (tagsArray.length < 2) {
+    if (tagsArray.length < 5) {
       return res
         .status(400)
-        .json({ error: 'É necessário informar no mínimo 2 tags.'});
+        .json({ error: 'É necessário informar no mínimo 5 tags.'});
     }
     
     // Cria hash da senha e insere no BD
@@ -89,6 +89,8 @@ exports.getRestaurants = (req, res) => {
 
   let query = `
     SELECT r.id,
+           r.telefone,
+           r.endereco,
            r.restaurant_name,
            COALESCE(AVG(rev.rating), 0)    AS average_rating,
            COUNT(rev.rating)               AS review_count
@@ -128,6 +130,8 @@ exports.getRestaurants = (req, res) => {
 
     const restaurants = rows.map(row => ({
       id:              row.id,
+      telefone:        row.telefone,
+      endereco:        row.endereco,
       restaurant_name: row.restaurant_name,
       average_rating:  parseFloat(row.average_rating.toFixed(1)),
       review_count:    row.review_count
