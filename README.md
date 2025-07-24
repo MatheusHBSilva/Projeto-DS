@@ -15,6 +15,10 @@ git clone URL_DO_REPOSITÓRIO
 ```jsx
 npm install express sqlite3 bcrypt cors cookie-parser @google/generative-ai pdfkit dotenv
 ```
+4. Crie um arquivo `.env` na raiz do repositório com a seguinte linha:
+```env
+GEMINI_API_KEY = adicione_a_chave_da_api
+```
 
 ## 📂 Descrição das dependências
 
