@@ -149,3 +149,16 @@ async function generateBusinessAnalysis() {
     message.style.display = 'block';
   }
 }
+
+async function evaluationsView() {
+  const meResponse = await fetch('/api/me', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    });
+
+  const meData = await meResponse.json();
+
+  const restaurantId = meData.restaurantId;
+  window.location.href = `/Restaurante/evaluationsRestaurant.html?id=${restaurantId}`;
+}
