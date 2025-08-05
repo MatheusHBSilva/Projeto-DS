@@ -81,61 +81,67 @@ exports.getCurrentRestaurant = (req, res) => {
   );
 };
 
+
 exports.getRestaurants = (req, res) => {
-  const { id, limit, random, search } = req.query;
+  const { id, limit, random, search } = req.query;
 
-  let query = `
-    SELECT r.id,
-           r.telefone,
-           r.endereco,
-           r.restaurant_name,
-           COALESCE(AVG(rev.rating), 0)    AS average_rating,
-           COUNT(rev.rating)               AS review_count
-    FROM restaurants r
-    LEFT JOIN reviews rev
-      ON r.id = rev.restaurant_id
-  `;
-  const params = [];
+  let query = `
+    SELECT r.id,
+           r.telefone,
+           r.endereco,
+           r.restaurant_name,
+           COALESCE(AVG(rev.rating), 0)   AS average_rating,
+           COUNT(rev.id)                  AS review_count
+    FROM restaurants r
+    LEFT JOIN reviews rev
+      ON r.id = rev.restaurant_id
+  `;
+  const params = [];
 
-  if (id) {
-    query += ' WHERE r.id = ?';
-    params.push(id);
-  } else if (search) {
-    query += ' WHERE r.restaurant_name LIKE ?';
-    params.push(`%${search}%`);
-  }
+  if (id) {
+    query += ' WHERE r.id = ?';
+    params.push(id);
+  } else if (search) {
+    query += ' WHERE r.restaurant_name LIKE ?';
+    params.push(`%${search}%`);
+  }
 
-  query += ' GROUP BY r.id, r.restaurant_name';
+  query += ' GROUP BY r.id, r.restaurant_name';
 
-  if (random && !search) {
-    query += ' ORDER BY RANDOM()';
-  }
+  if (random && !search) {
+    query += ' ORDER BY RANDOM()';
+  }
 
-  if (limit) {
-    query += ' LIMIT ?';
-    params.push(parseInt(limit, 10));
-  }
+  if (limit) {
+    query += ' LIMIT ?';
+    params.push(parseInt(limit, 10));
+  }
 
-  db.all(query, params, (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Erro interno no servidor.' });
-    }
+  db.all(query, params, (err, rows) => {
+    if (err) {
+      // MANTENHA ESTE CONSOLE.ERROR! Ele é essencial para erros de SQL.
+      console.error('Erro na query SQL em getRestaurants:', err);
+      return res.status(500).json({ error: 'Erro interno no servidor.' });
+    }
+    
+    try {
+      const restaurants = rows.map(row => ({
+        id:                row.id,
+        telefone:          row.telefone,
+        endereco:          row.endereco,
+        restaurant_name:   row.restaurant_name,
+        average_rating:    parseFloat((row.average_rating ?? 0).toFixed(1)),
+        review_count:      row.review_count
+      }));
+      
+      res.json({ restaurants });
 
-    if (rows.length === 0 && id) {
-      return res.status(404).json({ error: 'Restaurante não encontrado.' });
-    }
-
-    const restaurants = rows.map(row => ({
-      id:                row.id,
-      telefone:          row.telefone,
-      endereco:          row.endereco,
-      restaurant_name:   row.restaurant_name,
-      average_rating:    parseFloat(row.average_rating.toFixed(1)),
-      review_count:      row.review_count
-    }));
-
-    res.json({ restaurants });
-  });
+    } catch (e) {
+      // MANTENHA ESTE CONSOLE.ERROR! Ele é essencial para erros de processamento.
+      console.error('Erro ao processar dados dos restaurantes:', e);
+      return res.status(500).json({ error: 'Erro ao processar dados do servidor.' });
+    }
+  });
 };
 
 exports.getRestaurantTags = (req, res) => {
