@@ -1,146 +1,201 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f3e7;
   background-image: url('/images/fundo_restaurante.jpg');
   background-size: cover;
-  background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
+
 
 .screen {
   width: 100%;
-  max-width: 1200px;
-  padding: 40px 20px;
+  min-height: 100vh;
+  padding: 80px 20px 40px 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
+}
+
+.logo {
+  max-height: 80px;
+  margin-bottom: 30px;
+}
+
+
+.back-button {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  padding: 10px 20px;
+  background-color: #8a6a57;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #6d5444;
+  transform: translateY(-2px);
 }
 
 .container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  gap: 40px;
+  gap: 30px;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 1200px;
 }
 
-.restaurant-card,
-.info {
-  background-color: #f9fadc;
-  border-radius: 10px;
-  padding: 30px;
-  box-sizing: border-box;
-  border: 2px solid #7c8046;
-  width: 100%;
-  max-width: 500px;
+
+.restaurant-card, .info {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  min-width: 350px;
+  max-width: 500px;
 }
+
 
 .header-section {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  font-size: 1.5rem;
+  gap: 15px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
   margin-bottom: 20px;
-}
-
-.details-section {
   width: 100%;
-  text-align: center;
-  font-size: 1.2rem;
-  line-height: 1.6;
 }
 
 .restaurant-icon {
-  font-size: 4rem;
-  margin-right: 10px;
+  font-size: 3rem;
+}
+
+#restaurantName {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+}
+
+.details-section p {
+  font-size: 1rem;
+  color: #555;
+  margin: 8px 0;
+  text-align: left;
+}
+
+.details-section span {
+  font-weight: bold;
+  color: #333;
+}
+
+#ratingStars {
+  color: #f5b32a;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 10px;
   justify-content: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
   width: 100%;
 }
 
-.tags span {
-  background-color: #e9c46a;
-  padding: 0.25rem 0.5rem;
-  border-radius: 5px;
-  color: #8a4f2a;
-  font-size: 1.1rem;
+.tag {
+  background-color: #7c8046;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .buttons {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
   width: 100%;
-  margin-top: 10px;
+  align-items: center;
 }
 
 .buttons button {
-  min-width: 150px;
-  padding: 10px 15px;
-  background-color: #7c8046;
-  border: none;
-  border-radius: 5px;
-  color: white;
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 20px;
   font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.buttons button:hover {
-  background-color: #4a5f50;
-}
-
-.back-button {
-  background-color: #6c757d;
-  color: white;
-  padding: 10px 15px;
+  font-weight: bold;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.9em;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  transition: background-color 0.3s ease;
+  transition: all 0.2s ease-in-out;
 }
 
-.back-button:hover {
-  background-color: #5a6268;
+#generateAnalysisBtn {
+  background-color: #2a6f97;
+  color: white;
+}
+#generateAnalysisBtn:hover {
+  background-color: #235d7e;
 }
 
+#historyBtn, #editTagsBtn {
+  background-color: #e9c46a;
+  color: #333;
+}
+#historyBtn:hover, #editTagsBtn:hover {
+  background-color: #d8b359;
+}
+
+/* --- Mensagens de Feedback --- */
 .message {
-  margin-top: 1rem;
-  color: #dc3545;
-  display: none;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 10px;
+  width: 100%;
+  max-width: 300px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  text-align: center;
+  display: none; /* A mensagem só aparece quando o JS a ativa */
 }
 
-.message.error {
-  color: #dc3545;
-}
+/* --- Media Query para Telas Menores --- */
+@media (max-width: 800px) {
+  .container {
+    flex-direction: column; /* Coloca os cards um sobre o outro */
+    align-items: center;
+  }
 
-.message.success {
-  color: #28a745;
+  .screen {
+    padding-top: 100px; /* Aumenta o espaço no topo para o botão não sobrepor o logo */
+  }
+
+  .logo {
+    margin-bottom: 20px;
+  }
 }
