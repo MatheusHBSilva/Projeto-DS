@@ -156,6 +156,12 @@ async function showFavorites() {
   toggleDropdown(); // Fechar dropdown após clicar
 }
 
+// Nova função para editar tags
+function editTags() {
+  window.location.href = '/Cliente/edit_tags.html'; // Redireciona para a página de edição de tags
+  toggleDropdown(); // Fechar dropdown após clicar
+}
+
 async function showAllRestaurants() {
   currentMode = 'all'; // Resetar o modo para 'all'
   currentSearchQuery = ''; // Limpar a query de busca
