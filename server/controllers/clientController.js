@@ -88,37 +88,47 @@ exports.getCurrentClient = (req, res) => {
 // Nova função para atualizar as tags do cliente
 exports.updateClientTags = async (req, res) => {
   const { tags } = req.body;
-  const clientId = req.cookies.clientId; // Usa clientId do cookie, como em getCurrentClient
+  const clientId = req.cookies.clientId;
 
   if (!clientId) {
-      return res.status(401).json({ error: 'Não autorizado.' });
+    return res.status(401).json({ error: 'Não autorizado.' });
   }
 
   if (tags === undefined || tags === null) {
-      return res.status(400).json({ error: 'As tags são obrigatórias.' });
+    return res.status(400).json({ error: 'As tags são obrigatórias.' });
   }
 
-  const processedTags = tags.split(',')
-                            .map(tag => tag.trim())
-                            .filter(tag => tag !== '')
-                            .join(',');
+  // --- VALIDAÇÃO ADICIONADA AQUI ---
+  // 1. Cria um array a partir da string de tags recebida
+  const tagsArray = (typeof tags === 'string' ? tags.split(',') : [])
+    .map(tag => tag.trim())
+    .filter(tag => tag !== ''); // Remove tags vazias
+
+  // 2. Verifica a quantidade de tags no array
+  if (tagsArray.length < 5) {
+    return res.status(400).json({ error: 'É necessário informar no mínimo 5 tags.' });
+  }
+  // --- FIM DA VALIDAÇÃO ---
+
+  // 3. Junta o array de volta em uma string limpa para salvar no banco
+  const processedTags = tagsArray.join(',');
 
   try {
     const result = await new Promise((resolve, reject) => {
-        db.run('UPDATE clients SET tags = ? WHERE id = ?', [processedTags, clientId], function(err) {
-            if (err) reject(err);
-            else resolve(this);
-        });
+      db.run('UPDATE clients SET tags = ? WHERE id = ?', [processedTags, clientId], function(err) {
+        if (err) reject(err);
+        else resolve(this);
+      });
     });
 
     if (result.changes === 0) {
-        return res.status(404).json({ error: 'Cliente não encontrado ou tags não foram alteradas.' });
+      return res.status(404).json({ error: 'Cliente não encontrado ou tags não foram alteradas.' });
     }
 
-    res.status(200).json({ message: 'Tags atualizadas com sucesso!', updatedTags: processedTags.split(',') });
+    res.status(200).json({ message: 'Tags atualizadas com sucesso!', updatedTags: tagsArray });
 
   } catch (error) {
-      console.error('Erro ao atualizar tags do cliente:', error);
-      res.status(500).json({ error: 'Erro interno do servidor ao atualizar tags.' });
+    console.error('Erro ao atualizar tags do cliente:', error);
+    res.status(500).json({ error: 'Erro interno do servidor ao atualizar tags.' });
   }
 };
