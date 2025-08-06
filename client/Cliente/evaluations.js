@@ -60,6 +60,8 @@ async function loadRestaurantDetails() {
  
         container.appendChild(commentDiv);
       });
+    } else {
+      container.innerHTML = '<p class="no-results">Este restaurante ainda não recebeu avaliações.</p>';
     }
     
   } catch (error) {

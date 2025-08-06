@@ -28,6 +28,7 @@ exports.businessAnalysis = async (req, res) => {
       3. Sugestões de melhorias.
       4. Média das notas e visão de desempenho.
       5. Relatório profissional e estruturado.
+      Desconsidere avaliações que não estejam relacionadas à experiência do cliente com o restaurante, como comentários irrelevantes, vazios ou fora de contexto.
       Seguem as avaliações:
       ${reviews
         .map(
