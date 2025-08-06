@@ -23,7 +23,24 @@ O ***AVALIA*** é uma solução digital que integra a coleta e análise dos feed
 - Favoritar restaurantes e visualiza-los em aba especial.
 - Avaliar restaurantes com base na sua experiência.
 - Gerar resumo de combatibilidade com base nas tags e nas avaliações do restaurante.
-  
+
+## Desenvolvimento do produto
+
+### Identificação do problema:
+
+- Implementação de medidas de padronização em restaurantes, além da dificuldade para filtrar feedbacks e sugestões de valor recibidos dos clientes.
+- Dificuldade para encontrar restaurantes que atendam suas necessidades e interesses de maneira confiável.
+
+### Proposta de valor:
+
+- Garantir que donos de restaurantes obtenham um meio fiel de adquirir relatórios e feedbacks valiosos sobre a administração de seus estabelecimentos.
+- Criar uma plataforma segura para a busca de restaurantes a depender dos interesses do usuário e dos serviços ofertados pelo estabelecimento.
+
+### Público alvo:
+
+- Donos e funcionários de restaurantes, os quais buscam uma consultoria prática e personalizada baseados nos feedbacks dos clientes.
+- Pessoas a procura de sugestões de restaurante e interessadas em dar feedbacks e sugestões sobre suas experiências.
+ 
 ## Como Instalar <>
 
 0. Certifique-se que o node esteja devidamente instalado.
@@ -58,6 +75,16 @@ GEMINI_API_KEY = adicione_a_chave_da_api
 `pdfkit`: Biblioteca para criação de arquivos PDF diretamente no servidor.
 
 `dotenv`: Carrega variáveis de ambiente a partir de um arquivo .env para configuração do projeto.
+
+## Contribuição
+
+O AvalIA é feito utilizando JavaScript, SQL, HTML e CSS.
+
+[Regras de contribuição](https://github.com/MatheusHBSilva/Projeto-DS/blob/main/CONTRIBUTING.md)
+
+[Regras de revisão do código](https://github.com/MatheusHBSilva/Projeto-DS/blob/main/CODE_REVIEW.md)
+
+[Manual do desenvolvedor](https://github.com/MatheusHBSilva/Projeto-DS/blob/main/docs/manual-desenvolvedor.md)
 
 ## Como Rodar <>
 0. Inicie o servidor usando o comando.
