@@ -162,11 +162,11 @@ body, html {
   background-color: #235d7e;
 }
 
-#historyBtn, #editTagsBtn {
+#historyBtn, #editTagsBtn, #evaluationsBtn {
   background-color: #e9c46a;
   color: #333;
 }
-#historyBtn:hover, #editTagsBtn:hover {
+#historyBtn:hover, #editTagsBtn:hover, #evaluationsBtn:hover {
   background-color: #d8b359;
 }
 

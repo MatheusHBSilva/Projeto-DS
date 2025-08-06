@@ -1,7 +1,5 @@
 function goBack() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const restaurantId = urlParams.get('id');
-  window.location.href=`/Restaurante/evaluationsRestaurant.html?id=${restaurantId}`;
+  window.location.href = '/Restaurante/restaurant_dashboard.html';
 }
 
 async function loadRestaurantDetails() {
