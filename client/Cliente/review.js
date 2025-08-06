@@ -31,20 +31,6 @@ async function loadRestaurantDetails() {
       tagsContainer.appendChild(span);
     });
 
-    //Comentários sobre o restaurante
-    const commentsResponse = await fetch(`/api/reviews?restaurantId=${restaurantId}&limit=5`, { credentials: 'include'});
-    const commentsData = await commentsResponse.json();
-    const container = document.getElementById('comments');
-    console.log(commentsData.reviews);
-    if (commentsData.reviews.length > 0) {
-      commentsData.reviews.forEach(review => {
-        const div = document.createElement('div');
-        div.className = 'comment';
-        div.textContent = `${review.reviewer_name}: ${review.review_text}`;
-        container.appendChild(div);
-      });
-    }
-    
   } catch (error) {
     console.error('Erro ao carregar detalhes:', error);
     alert('Erro ao carregar detalhes do restaurante.');
@@ -96,3 +82,11 @@ async function rateRestaurant() {
   const restaurantId = urlParams.get('id');
   window.location.href = `/Cliente/rate.html?id=${restaurantId}`;
 }
+
+async function evaluationsView() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const restaurantId = urlParams.get('id');
+  window.location.href = `/Cliente/evaluations.html?id=${restaurantId}`;
+}
+
+document.addEventListener('DOMContentLoaded', loadRestaurantDetails);
