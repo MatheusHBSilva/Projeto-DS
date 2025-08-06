@@ -1,8 +1,29 @@
 # AVALIA ✅:
 
 ## 📌 Descrição Geral:
-O ***AVALIA*** é uma solução digital que integra a coleta e análise dos feedbacks dos clientes para oferecer sugestões de melhorias a restaurantes e estabelecimentos semelhantes. Utilizando o gemini, a ferramenta processa os comentários realizados pelos consumidores para gerar relatórios detalhados e insights que auxiliam os proprietários na tomada de decisões estratégicas para otimizar seus serviços. Paralelamente, o sistema também beneficia os clientes ao oferecer recomendações personalizadas e resumos inteligentes dos estabelecimentos, levando em conta preferências individuais e localização, e facilitando a escolha do ambiente ideal para uma experiência gastronômica.
+O ***AVALIA*** é uma solução digital que integra a coleta e análise dos feedbacks dos clientes para oferecer sugestões de melhorias a restaurantes e estabelecimentos semelhantes. Utilizando o gemini, a ferramenta processa os comentários realizados pelos consumidores para gerar relatórios detalhados e insights que auxiliam os proprietários na tomada de decisões estratégicas para otimizar seus serviços. Paralelamente, o sistema também beneficia os clientes ao oferecer recomendações personalizadas e resumos inteligentes dos estabelecimentos, levando em conta preferências individuais, facilitando a escolha do ambiente ideal para uma experiência gastronômica.
 
+## **Funcionalidades do AvalIA**
+
+### Modo Restaurante:
+
+- Cadastrar e logar restaurante.
+- Adicionar e remover tags relacionadas ao restaurante.
+- Visualizar as avaliações dos clientes individualmente.
+- Gerar relatório com base em todas as avaliações.
+- Acessar relatórios antigos.
+- Baixar os relatórios em formato PDF.
+
+### Modo Cliente:
+
+- Cadastrar e logar cliente.
+- Adicionar e remover tags relacionadas ao perfil do cliente.
+- Visualizar sugestões de restaurantes com base na combatibilidade das tags.
+- Pesquisar restaurantes.
+- Favoritar restaurantes e visualiza-los em aba especial.
+- Avaliar restaurantes com base na sua experiência.
+- Gerar resumo de combatibilidade com base nas tags e nas avaliações do restaurante.
+  
 ## Como Instalar <>
 
 0. Certifique-se que o node esteja devidamente instalado.
@@ -65,3 +86,7 @@ npm test nome-do-arquivo
 ```jsx
 npx jest --coverage
 ```
+## Documentações importantes
+[Link do Drive do projeto](https://drive.google.com/drive/folders/1dCIHfxpPBsO5VICLNAlN9THgfviDClxe)
+
+[Link do Notion do projeto](https://www.notion.so/Projeto-DS-1fb9f1dffea8800a8eeed09cd4419f4f)
