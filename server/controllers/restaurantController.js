@@ -167,7 +167,6 @@ exports.getRestaurantTags = (req, res) => {
   );
 };
 
-// CORRIGIDO: Removidos caracteres inválidos e melhorada a clareza.
 exports.updateRestaurantTags = async (req, res) => {
   const { tags } = req.body;
   const restaurantId = req.cookies.restaurantId;
@@ -176,12 +175,12 @@ exports.updateRestaurantTags = async (req, res) => {
     return res.status(401).json({ error: 'Não autorizado.' });
   }
 
-  // A verificação de 'tags' aqui é importante para evitar erros.
-  if (!Array.isArray(tags)) {
-    return res.status(400).json({ error: 'O campo de tags deve ser um array.' });
+  if (typeof tags !== 'string') {
+    return res.status(400).json({ error: 'As tags devem estar separadas por vírgula.' });
   }
   
-  const processedTags = tags
+
+  const processedTags = tags.split(',')
     .map(tag => tag.trim())
     .filter(tag => tag !== '')
     .join(',');
@@ -198,10 +197,52 @@ exports.updateRestaurantTags = async (req, res) => {
       return res.status(404).json({ error: 'Restaurante não encontrado ou tags não foram alteradas.' });
     }
 
+    // Retorna as tags como um array para o frontend poder usar se precisar.
     res.status(200).json({ message: 'Tags atualizadas com sucesso!', updatedTags: processedTags.split(',') });
 
   } catch (error) {
     console.error('Erro ao atualizar tags do restaurante:', error);
     res.status(500).json({ error: 'Erro interno do servidor ao atualizar tags.' });
   }
+};
+
+exports.getMe = (req, res) => {
+  // O ID do restaurante é pego do cookie, que o middleware já validou
+  const restaurantId = req.cookies.restaurantId;
+
+  const sql = `
+    SELECT 
+      r.id, 
+      r.restaurant_name, 
+      r.email, 
+      r.telefone, 
+      r.tags,
+      COALESCE(AVG(rev.rating), 0) as averageRating,
+      COUNT(rev.id) as reviewCount
+    FROM restaurants r
+    LEFT JOIN reviews rev ON r.id = rev.restaurant_id
+    WHERE r.id = ?
+    GROUP BY r.id
+  `;
+
+  db.get(sql, [restaurantId], (err, row) => {
+    if (err) {
+      console.error("Erro ao buscar dados do restaurante 'me':", err);
+      return res.status(500).json({ error: 'Erro interno no servidor.' });
+    }
+    if (!row) {
+      return res.status(404).json({ error: 'Restaurante não encontrado.' });
+    }
+
+    // Envia os dados formatados para o frontend
+    res.json({
+      restaurantId: row.id,
+      restaurantName: row.restaurant_name,
+      restaurantEmail: row.email,
+      restaurantPhone: row.telefone,
+      tags: row.tags ? row.tags.split(',').map(tag => tag.trim()) : [],
+      averageRating: parseFloat(row.averageRating.toFixed(1)),
+      reviewCount: row.reviewCount
+    });
+  });
 };

@@ -6,7 +6,7 @@ async function loadRestaurantTags() {
     message.style.display = 'none';
 
     try {
-        const response = await fetch('/api/me', { credentials: 'include' });
+        const response = await fetch('/api/restaurant/me', { credentials: 'include' });
         const restaurantData = await response.json();
 
         if (!response.ok) {
@@ -17,6 +17,7 @@ async function loadRestaurantTags() {
         }
         
         currentTagsInput.value = restaurantData.tags ? restaurantData.tags.join(', ') : '';
+
     } catch (error) {
         console.error('Erro ao carregar tags do restaurante:', error);
         message.textContent = 'Erro ao conectar ao servidor para carregar tags.';
