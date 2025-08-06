@@ -168,7 +168,7 @@ exports.getRestaurantTags = (req, res) => {
 };
 
 exports.updateRestaurantTags = async (req, res) => {
-  const { tags } = req.body;
+  const { tags } = req.body; // 'tags' aqui é uma string: "hamburguer, pizza, ..."
   const restaurantId = req.cookies.restaurantId;
 
   if (!restaurantId) {
@@ -176,14 +176,23 @@ exports.updateRestaurantTags = async (req, res) => {
   }
 
   if (typeof tags !== 'string') {
-    return res.status(400).json({ error: 'As tags devem estar separadas por vírgula.' });
+    return res.status(400).json({ error: 'Formato de tags inválido. Deve ser uma string.' });
   }
   
-
-  const processedTags = tags.split(',')
+  // --- VALIDAÇÃO ADICIONADA AQUI ---
+  // 1. Cria um array a partir da string de tags
+  const tagsArray = tags.split(',')
     .map(tag => tag.trim())
-    .filter(tag => tag !== '')
-    .join(',');
+    .filter(tag => tag !== ''); // Remove tags vazias
+
+  // 2. Verifica a quantidade de tags no array
+  if (tagsArray.length < 5) {
+    return res.status(400).json({ error: 'É necessário informar no mínimo 5 tags.' });
+  }
+  // --- FIM DA VALIDAÇÃO ---
+
+  // 3. Junta o array de volta em uma string limpa para salvar no banco
+  const processedTags = tagsArray.join(',');
 
   try {
     const result = await new Promise((resolve, reject) => {
@@ -197,8 +206,7 @@ exports.updateRestaurantTags = async (req, res) => {
       return res.status(404).json({ error: 'Restaurante não encontrado ou tags não foram alteradas.' });
     }
 
-    // Retorna as tags como um array para o frontend poder usar se precisar.
-    res.status(200).json({ message: 'Tags atualizadas com sucesso!', updatedTags: processedTags.split(',') });
+    res.status(200).json({ message: 'Tags atualizadas com sucesso!', updatedTags: tagsArray });
 
   } catch (error) {
     console.error('Erro ao atualizar tags do restaurante:', error);
