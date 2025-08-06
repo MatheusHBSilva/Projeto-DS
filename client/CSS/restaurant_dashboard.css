@@ -184,6 +184,41 @@ body, html {
   display: none; /* A mensagem só aparece quando o JS a ativa */
 }
 
+.analysis-report {
+  margin-top: 2rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 1rem;
+  border-radius: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+  width: 60%; 
+  border: 2px solid #767847;
+}
+
+.analysis-report pre {
+  white-space: pre-wrap;
+  font-family: Arial, sans-serif;
+}
+
+.pdf-button {
+    align-items: center; 
+    justify-content: center;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #e9c46a;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    width: 50%;
+}
+
+.pdf-button:hover {
+  background-color: #d8b359;
+}
+
 /* --- Media Query para Telas Menores --- */
 @media (max-width: 800px) {
   .container {

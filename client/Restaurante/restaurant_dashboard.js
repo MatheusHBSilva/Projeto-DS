@@ -127,6 +127,44 @@ async function generateBusinessAnalysis() {
       throw new Error(result.error || 'Ocorreu um erro desconhecido no servidor.');
     }
     
+    const reportDiv = document.getElementById('analysisReport') || document.createElement('div');
+    reportDiv.id = 'analysisReport';
+    reportDiv.className = 'analysis-report';
+    reportDiv.innerHTML = `
+      <h3>Análise de Negócio</h3>
+      <pre>${result.analysis}</pre>
+      <button id="downloadPdf" class="pdf-button">Baixar como PDF</button>
+    `;
+    document.querySelector('.container').appendChild(reportDiv);
+
+    document.getElementById('downloadPdf').addEventListener('click', async () => {
+      try {
+        const pdfResponse = await fetch('/api/analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ restaurantId: currentRestaurantId, format: 'pdf' })
+        });
+
+        if (!pdfResponse.ok) {
+          throw new Error('Erro ao gerar PDF.');
+        }
+
+        const blob = await pdfResponse.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `relatorio_analise_${currentRestaurantId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        message.textContent = error.message || 'Erro ao baixar PDF.';
+        message.classList.add('error');
+        message.style.display = 'block';
+      }
+    });
+
     // Mostra a mensagem de sucesso
     messageDiv.textContent = result.message || 'Análise gerada com sucesso!';
 
