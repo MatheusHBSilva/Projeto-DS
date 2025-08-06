@@ -1,69 +1,69 @@
+// Variável para guardar o ID do restaurante logado
+let currentRestaurantId = null;
+
+/**
+ * Função principal que roda quando o HTML da página está pronto.
+ */
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Busca os dados do restaurante e preenche a página.
   loadDashboardData();
-  // 2. Atribui as funções de clique a cada um dos botões.
   initializeDashboardButtons();
 });
 
+/**
+ * Adiciona os "escutadores de eventos" a cada botão do dashboard.
+ */
 function initializeDashboardButtons() {
   const logoutBtn = document.getElementById('logoutBtn');
   const generateBtn = document.getElementById('generateAnalysisBtn');
   const historyBtn = document.getElementById('historyBtn');
   const editTagsBtn = document.getElementById('editTagsBtn');
-  const evaluationsBtn = document.getElementById('evaluationsBtn'); // Novo botão
+  const evaluationsBtn = document.getElementById('evaluationsBtn');
 
-  // A função logout() vem do seu arquivo auth.js
   if (logoutBtn) {
     logoutBtn.addEventListener('click', logout);
   }
-
   if (generateBtn) {
     generateBtn.addEventListener('click', generateBusinessAnalysis);
   }
-
   if (historyBtn) {
     historyBtn.addEventListener('click', () => {
       window.location.href = '/Restaurante/history.html';
     });
   }
-
   if (editTagsBtn) {
     editTagsBtn.addEventListener('click', () => {
       window.location.href = '/Restaurante/edit_restaurant_tags.html';
     });
   }
-  
-  // Conectando o novo botão à nova função
   if (evaluationsBtn) {
     evaluationsBtn.addEventListener('click', evaluationsView);
   }
 }
 
 /**
- * Carrega os dados do restaurante logado a partir da API e preenche a página.
- * Também atua como uma verificação de segurança: se falhar, redireciona para a home.
+ * Carrega os dados do restaurante logado e preenche a página.
  */
 async function loadDashboardData() {
   try {
     const response = await fetch('/api/restaurant/me', { credentials: 'include' });
 
     if (!response.ok) {
-      console.error("Sessão inválida ou expirada. Redirecionando para login.");
       alert('Sua sessão expirou ou é inválida. Por favor, faça o login novamente.');
-      logout(); // Redireciona para a página inicial
+      logout();
       return;
     }
 
     const data = await response.json();
     
-    // Preenche os campos do dashboard com os dados recebidos
+    // ALTERAÇÃO IMPORTANTE: Armazena o ID do restaurante para uso posterior
+    currentRestaurantId = data.restaurantId;
+
     document.getElementById('restaurantName').textContent = data.restaurantName || 'Nome não disponível';
     document.getElementById('averageRating').textContent = data.averageRating || 'N/A';
     document.getElementById('reviewCount').textContent = data.reviewCount || '0';
     document.getElementById('telefone').textContent = data.restaurantPhone || 'Não informado';
     document.getElementById('email').textContent = data.restaurantEmail || 'Não informado';
 
-    // Preenche as tags
     const tagsContainer = document.getElementById('restaurantTags');
     tagsContainer.innerHTML = ''; 
     if (data.tags && data.tags.length > 0) {
@@ -76,7 +76,6 @@ async function loadDashboardData() {
     } else {
       tagsContainer.textContent = 'Nenhuma tag definida.';
     }
-
   } catch (error) {
     console.error("Erro crítico ao carregar dados do dashboard:", error);
     alert('Não foi possível conectar ao servidor para carregar os dados.');
@@ -84,48 +83,58 @@ async function loadDashboardData() {
 }
 
 /**
- * Busca o ID do restaurante logado e redireciona para a página de visualização de avaliações.
+ * Busca o ID do restaurante e redireciona para a página de avaliações.
  */
 async function evaluationsView() {
-  try {
-    const meResponse = await fetch('/api/restaurant/me', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include'
-    });
-
-    if (!meResponse.ok) {
-      console.error('Não foi possível obter os dados do restaurante.');
-      alert('Sua sessão expirou. Por favor, faça o login novamente.');
-      logout();
-      return;
-    }
-
-    const meData = await meResponse.json();
-    const restaurantId = meData.restaurantId;
-
-    if (restaurantId) {
-      window.location.href = `/Restaurante/evaluationsRestaurant.html?id=${restaurantId}`;
-    } else {
-      throw new Error("ID do restaurante não encontrado na resposta da API.");
-    }
-
-  } catch (error) {
-    console.error('Erro ao tentar visualizar avaliações:', error);
-    alert('Ocorreu um erro de conexão. Verifique sua internet e tente novamente.');
+  // A variável 'currentRestaurantId' já foi definida pelo loadDashboardData
+  if (currentRestaurantId) {
+    window.location.href = `/Restaurante/evaluationsRestaurant.html?id=${currentRestaurantId}`;
+  } else {
+    alert('Não foi possível obter o ID do restaurante. Tente recarregar a página.');
   }
 }
 
-
 /**
- * Função de exemplo para o botão de gerar análise.
+ * FUNÇÃO COMPLETA: Chama a API do backend para gerar a análise de negócios com a IA.
  */
-function generateBusinessAnalysis() {
+async function generateBusinessAnalysis() {
+  const generateBtn = document.getElementById('generateAnalysisBtn');
   const messageDiv = document.getElementById('message');
-  messageDiv.textContent = 'Gerando análise...';
-  messageDiv.style.display = 'block';
-  // Aqui viria a lógica real de chamada da API
-}
 
-// Nota: A função logout() é chamada aqui, mas está definida no seu arquivo /auth.js,
-// que já está corretamente incluído no seu HTML.
+  if (!currentRestaurantId) {
+    alert('Erro: ID do restaurante não encontrado. Não é possível gerar a análise.');
+    return;
+  }
+
+  try {
+    // Desabilita o botão e mostra a mensagem de carregamento
+    generateBtn.disabled = true;
+    messageDiv.textContent = 'Gerando análise com IA... Isso pode levar um momento.';
+    messageDiv.style.display = 'block';
+
+    // Chama a rota da API responsável por criar a análise
+    const response = await fetch('/api/analysis', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ restaurantId: currentRestaurantId }) // Envia o ID do restaurante
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      // Se a API retornar um erro, exibe-o
+      throw new Error(result.error || 'Ocorreu um erro desconhecido no servidor.');
+    }
+    
+    // Mostra a mensagem de sucesso
+    messageDiv.textContent = result.message || 'Análise gerada com sucesso!';
+
+  } catch (error) {
+    console.error('Erro ao gerar análise de negócios:', error);
+    messageDiv.textContent = `Erro: ${error.message}`;
+  } finally {
+    // Reabilita o botão após a conclusão (sucesso ou falha)
+    generateBtn.disabled = false;
+  }
+}
