@@ -69,10 +69,11 @@ body, html {
 
 .restaurant-info h2 {
   color: black;
+  align-self: center;
   font-size:xx-large;
 }
 
-.restaurant-info p {
+.restaurant-classification {
   color: black;
   display: flex;
   align-items: center;
