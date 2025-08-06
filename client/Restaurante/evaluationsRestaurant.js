@@ -1,19 +1,30 @@
-function goBack() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const restaurantId = urlParams.get('id');
-  window.location.href=`/Restaurante/evaluationsRestaurant.html?id=${restaurantId}`;
-}
+document.addEventListener('DOMContentLoaded', () => {
+  loadRestaurantDetails();
+  document.querySelector('.back-button').addEventListener('click', () => {
+    window.history.back();
+  });
+});
 
 async function loadRestaurantDetails() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const restaurantId = urlParams.get('id');
-
-  if (!restaurantId) {
-    alert('ID do restaurante não encontrado.');
-    return;
-  }
 
   try {
+    const meResponse = await fetch('/api/me', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    });
+
+    const meData = await meResponse.json();
+
+    const restaurantId = meData.restaurantId;
+
+    if (!meResponse.ok) {
+      message.textContent = meData.error || 'Erro ao buscar dados do restaurante.';
+      message.classList.add('error');
+      message.style.display = 'block';
+      return;
+    }
+
     const response = await fetch(`/api/restaurants?id=${restaurantId}`, { credentials: 'include' });
     const data = await response.json();
     if (!response.ok) throw new Error(data.error);
@@ -60,6 +71,8 @@ async function loadRestaurantDetails() {
  
         container.appendChild(commentDiv);
       });
+    } else {
+      container.innerHTML = '<p class="no-results">Este restaurante ainda não recebeu avaliações.</p>';
     }
     
   } catch (error) {
@@ -67,5 +80,3 @@ async function loadRestaurantDetails() {
     alert('Erro ao carregar detalhes do restaurante.');
   }
 }
-
-document.addEventListener('DOMContentLoaded', loadRestaurantDetails);
