@@ -6,7 +6,6 @@ const db = new sqlite3.Database(path.resolve(__dirname, '../../database.db'), er
   else     console.log('Conectado ao SQLite com sucesso');
 });
 
-// Verificação antes de adicionar as colunas de endereço e telefone para a tabela do restaurante
 function addColumnIfNotExists(tableName, columnName, columnType) {
   db.all(`PRAGMA table_info(${tableName})`, (err, columns) => {
     if (err) {
@@ -26,7 +25,6 @@ function addColumnIfNotExists(tableName, columnName, columnType) {
   });
 }
 
-// Função para criar tabelas (executar apenas uma vez ou a cada start)
 function initTables() {
   db.serialize(() => {
     db.run(`
@@ -57,6 +55,9 @@ function initTables() {
         created_at TEXT NOT NULL
       )
     `);
+    // Certifique-se de que a coluna 'tags' está sendo criada.
+    // Se a tabela 'clients' já existe sem 'tags', você pode adicionar um addColumnIfNotExists para 'clients'
+    // addColumnIfNotExists('clients', 'tags', 'TEXT'); // Descomente e execute uma vez se a coluna não existir
 
     db.run(`
       CREATE TABLE IF NOT EXISTS favoritos (
@@ -93,15 +94,24 @@ function initTables() {
     `);
   });
 
-db.all('PRAGMA table_info(restaurants)', (err, rows) => {
-  if (err) {
-    console.error('Erro ao verificar colunas:', err.message);
-  } else {
-    console.log('Colunas atuais da tabela restaurants:');
-    rows.forEach(col => console.log(`- ${col.name} (${col.type})`));
-  }
-});
+  db.all('PRAGMA table_info(restaurants)', (err, rows) => {
+    if (err) {
+      console.error('Erro ao verificar colunas:', err.message);
+    } else {
+      console.log('Colunas atuais da tabela restaurants:');
+      rows.forEach(col => console.log(`- ${col.name} (${col.type})`));
+    }
+  });
 
+  // Adicionado para verificar a tabela clients também
+  db.all('PRAGMA table_info(clients)', (err, rows) => {
+    if (err) {
+        console.error('Erro ao verificar colunas da tabela clients:', err.message);
+    } else {
+        console.log('Colunas atuais da tabela clients:');
+        rows.forEach(col => console.log(`- ${col.name} (${col.type})`));
+    }
+  });
 }
 
 module.exports = { db, initTables };

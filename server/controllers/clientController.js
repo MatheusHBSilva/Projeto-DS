@@ -5,7 +5,6 @@ exports.registerClient = async (req, res) => {
   const { nome, sobrenome, cpf, telefone, email, senha, tags } = req.body;
 
   try {
-    // Verifica email ou CPF já cadastrado
     const existingClient = await new Promise((resolve, reject) => {
       db.get(
         'SELECT email FROM clients WHERE email = ? OR cpf = ?',
@@ -20,9 +19,8 @@ exports.registerClient = async (req, res) => {
         .json({ error: 'Este email ou CPF já está registrado.' });
     }
 
-    // Verifica se o cliente digitou o número mínimo de tags
     const tagsArray = tags
-      ? tags.split(',').map(tag => tag.trim())
+      ? tags.split(',').map(tag => tag.trim()).filter(tag => tag !== '')
       : [];
 
     if (tagsArray.length < 5) {
@@ -31,7 +29,6 @@ exports.registerClient = async (req, res) => {
         .json({ error: 'É necessário informar no mínimo 5 tags.'});
     }
 
-    // Hash da senha e inserção no BD
     const hashedPassword = await bcrypt.hash(senha, 10);
     await new Promise((resolve, reject) => {
       db.run(
@@ -47,7 +44,7 @@ exports.registerClient = async (req, res) => {
           telefone,
           email,
           hashedPassword,
-          tags || '',
+          tagsArray.join(','), // Salva como string separada por vírgulas
           new Date().toISOString()
         ],
         err => (err ? reject(err) : resolve())
@@ -63,7 +60,7 @@ exports.registerClient = async (req, res) => {
 
 exports.getCurrentClient = (req, res) => {
   const clientId = req.cookies.clientId;
-  
+
   db.get(
     'SELECT id, nome, sobrenome, email, tags FROM clients WHERE id = ?',
     [clientId],
@@ -81,10 +78,57 @@ exports.getCurrentClient = (req, res) => {
         sobrenome:  row.sobrenome,
         email:      row.email,
         tags:       row.tags
-                       ? row.tags.split(',').map(tag => tag.trim())
-                       : []
+                    ? row.tags.split(',').map(tag => tag.trim())
+                    : []
       });
     }
   );
 };
 
+// Nova função para atualizar as tags do cliente
+exports.updateClientTags = async (req, res) => {
+  const { tags } = req.body;
+  const clientId = req.cookies.clientId;
+
+  if (!clientId) {
+    return res.status(401).json({ error: 'Não autorizado.' });
+  }
+
+  if (tags === undefined || tags === null) {
+    return res.status(400).json({ error: 'As tags são obrigatórias.' });
+  }
+
+  // --- VALIDAÇÃO ADICIONADA AQUI ---
+  // 1. Cria um array a partir da string de tags recebida
+  const tagsArray = (typeof tags === 'string' ? tags.split(',') : [])
+    .map(tag => tag.trim())
+    .filter(tag => tag !== ''); // Remove tags vazias
+
+  // 2. Verifica a quantidade de tags no array
+  if (tagsArray.length < 5) {
+    return res.status(400).json({ error: 'É necessário informar no mínimo 5 tags.' });
+  }
+  // --- FIM DA VALIDAÇÃO ---
+
+  // 3. Junta o array de volta em uma string limpa para salvar no banco
+  const processedTags = tagsArray.join(',');
+
+  try {
+    const result = await new Promise((resolve, reject) => {
+      db.run('UPDATE clients SET tags = ? WHERE id = ?', [processedTags, clientId], function(err) {
+        if (err) reject(err);
+        else resolve(this);
+      });
+    });
+
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Cliente não encontrado ou tags não foram alteradas.' });
+    }
+
+    res.status(200).json({ message: 'Tags atualizadas com sucesso!', updatedTags: tagsArray });
+
+  } catch (error) {
+    console.error('Erro ao atualizar tags do cliente:', error);
+    res.status(500).json({ error: 'Erro interno do servidor ao atualizar tags.' });
+  }
+};

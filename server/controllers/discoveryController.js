@@ -1,33 +1,33 @@
 const { db } = require('../models/db');
 
-/**
- * Busca restaurantes com base na compatibilidade de tags com o cliente logado.
- * ESTA VERSÃO UTILIZA COOKIES EM VEZ DE SESSÕES.
- */
-const getDiscoveryFeed = async (req, res) => {
-  // -> MUDANÇA 1: A verificação de identidade agora olha para req.cookies.
-  if (!req.cookies || !req.cookies.clientId) {
-    return res.status(401).json({ error: 'Cliente não autenticado.' });
-  }
-  
-  // -> MUDANÇA 2: A variável clientId é pega diretamente de req.cookies.
+exports.getDiscoveryFeed = async (req, res) => {
+  // Pega o ID do cliente do cookie, que é o método mais seguro
   const clientId = req.cookies.clientId;
 
+  // 1. Verificação de Segurança: O cliente está logado?
+  if (!clientId) {
+    // Se não estiver logado, não há como gerar recomendações. Retorna uma lista vazia.
+    return res.status(200).json({ restaurants: [] });
+  }
+  
   try {
-    // A partir daqui, o resto da função é exatamente igual.
+    // 2. Busca as tags do cliente logado
     const client = await new Promise((resolve, reject) => {
       db.get('SELECT tags FROM clients WHERE id = ?', [clientId], (err, row) => {
         if (err) reject(err);
-        resolve(row);
+        else resolve(row);
       });
     });
 
-    if (!client || !client.tags) {
-      return res.json({ restaurants: [] });
+    // 3. Verificação de Segurança: O cliente tem tags?
+    if (!client || !client.tags || client.tags.trim() === '') {
+      // Se o cliente não tem tags, não há como recomendar. Retorna uma lista vazia.
+      return res.status(200).json({ restaurants: [] });
     }
 
     const clientTagsSet = new Set(client.tags.split(',').map(tag => tag.trim()));
 
+    // 4. Busca todos os restaurantes e suas informações
     const allRestaurants = await new Promise((resolve, reject) => {
       const query = `
         SELECT 
@@ -40,12 +40,17 @@ const getDiscoveryFeed = async (req, res) => {
       `;
       db.all(query, [], (err, rows) => {
         if (err) reject(err);
-        resolve(rows);
+        else resolve(rows);
       });
     });
 
+    // 5. Filtra os restaurantes que correspondem às tags do cliente
     const feedRestaurants = allRestaurants.filter(restaurant => {
-      if (!restaurant.tags) return false;
+      // 6. Verificação de Segurança: O restaurante tem tags?
+      if (!restaurant.tags || restaurant.tags.trim() === '') {
+        return false; // Ignora restaurantes sem tags
+      }
+
       const restaurantTags = restaurant.tags.split(',').map(tag => tag.trim());
       let commonTagsCount = 0;
       for (const tag of restaurantTags) {
@@ -53,17 +58,15 @@ const getDiscoveryFeed = async (req, res) => {
           commonTagsCount++;
         }
       }
-      return commonTagsCount >= 2;
+      return commonTagsCount >= 2; // A regra de negócio para recomendação
     });
 
+    // 7. Retorna a lista filtrada (pode estar vazia, e isso é ok)
     res.json({ restaurants: feedRestaurants });
 
   } catch (error) {
-    console.error('Erro ao buscar feed de descoberta:', error);
-    res.status(500).json({ error: 'Erro interno do servidor.' });
+    // Se qualquer outro erro inesperado acontecer, ele será capturado aqui
+    console.error('Erro grave no feed de descoberta:', error);
+    res.status(500).json({ error: 'Erro interno do servidor ao buscar recomendações.' });
   }
-};
-
-module.exports = {
-  getDiscoveryFeed,
 };
