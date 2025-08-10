@@ -80,6 +80,85 @@ GEMINI_API_KEY = adicione_a_chave_da_api
 
 O AvalIA é feito utilizando JavaScript, SQL, HTML e CSS.
 
+**Estrutura de Pastas do Projeto**
+
+```plaintext
+project/
+├─ client/
+│  ├─ auth.js
+│  ├─ index.html
+│  ├─ CSS/
+│  │  ├─ styles.css
+│  │  ├─ main.css
+│  │  ├─ client_dashboard.css
+│  │  ├─ hub.css
+│  │  ├─ login_client.css
+│  │  ├─ login_restaurant.css
+│  │  ├─ register.css
+│  │  ├─ rate.css
+│  │  └─ review.css
+│  ├─ Cliente/
+│  │  ├─ login_client.html
+│  │  ├─ register_client.html
+│  │  ├─ Client_dashboard.html
+│  │  ├─ client_dashboard.js
+│  │  ├─ main.js
+│  │  ├─ rate.html
+│  │  ├─ rate.js
+│  │  ├─ register_client.js
+│  │  ├─ review.html
+│  │  └─ review.js
+│  ├─ Restaurante/
+│  │  ├─ history.html
+│  │  ├─ history.js
+│  │  ├─ login_restaurant.html
+│  │  ├─ restaurant_dashboard.html
+│  │  ├─ restaurant_dashboard.js
+│  │  ├─ restaurant_register.html
+│  │  └─ restaurant_register.js
+│  └─ images/
+│     ...
+│
+├─ server/
+│  ├─ middlewares/
+│  │  ├─ clientMiddlewares.js
+│  │  ├─ restaurantMiddlewares.js
+│  │  ├─ validateLogin.js
+│  │  └─ validateReportId.js
+│  ├─ routes/
+│  │  ├─ analysisRoutes.js
+│  │  ├─ authRoutes.js
+│  │  ├─ clientRoutes.js
+│  │  ├─ favoriteRoutes.js
+│  │  ├─ recommendationRoutes.js
+│  │  ├─ reportRoutes.js
+│  │  ├─ restaurantRoutes.js
+│  │  ├─ reviewRoutes.js
+│  │  ├─ reportRoutes.js
+│  │  └─ discoveryRoutes.js
+│  ├─ controllers/
+│  │  ├─ analysisController.js
+│  │  ├─ authController.js
+│  │  ├─ clientController.js
+│  │  ├─ favoriteController.js
+│  │  ├─ recommendationController.js
+│  │  ├─ reportController.js
+│  │  ├─ restaurantController.js
+│  │  ├─ reviewController.js
+│  │  ├─ reportController.js
+│  │  └─ discoveryController.js
+│  ├─ models/
+│  │  └─ db.js
+│  └─ server.js
+│
+├─ CONTRIBUTING.md
+├─ database.db
+├─ package-lock.json
+├─ package.json
+└─ README.md
+```
+[Arquitetura da Aplicação](https://github.com/MatheusHBSilva/Projeto-DS/blob/main/docs/arquitetura.md)
+
 [Regras de contribuição](https://github.com/MatheusHBSilva/Projeto-DS/blob/main/CONTRIBUTING.md)
 
 [Regras de revisão do código](https://github.com/MatheusHBSilva/Projeto-DS/blob/main/CODE_REVIEW.md)
@@ -117,3 +196,18 @@ npx jest --coverage
 [Link do Drive do projeto](https://drive.google.com/drive/folders/1dCIHfxpPBsO5VICLNAlN9THgfviDClxe)
 
 [Link do Notion do projeto](https://www.notion.so/Projeto-DS-1fb9f1dffea8800a8eeed09cd4419f4f)
+
+## Licença
+AvalIA está sob a licença MIT
+
+## Sobre o projeto
+O AvalIA foi desenvolvidos por estudantes do Centro de Informática-UFPE para a diciplina Desenvolvimento de Software 2025.1
+
+Responsáveis pelo projeto:  
+- Ana sofia da Silva Moura (assm)
+- Arthur Torres de Lucena (atl)
+- Giovanna Maria de Carvalho Bardi (gmcb)
+- Matheus Henrique Barros da Silva (mhbs4)
+- Pedro Elias Gonçalves de Andrade (pega)
+- Raissa Machado Figueiredo (rmf5)
+- Thales Rafael da Costa Silva (trcs)
